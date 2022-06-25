@@ -1,0 +1,373 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard Guru{% endblock title %}
+
+
+{% block dashboard %}
+<!-- DASHBOARD  -->
+  <!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <span class="d-none d-lg-block">SIMS</span>
+        <small class="d-none d-lg-block" style="margin-left: 10px;">Guru</small>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+</header><!-- End Header -->
+
+
+<!-- Sidebar --> 
+<aside id="sidebar" class="sidebar">
+
+<ul class="sidebar-nav" id="sidebar-nav">
+<!-- 
+  <li class="nav-item">
+    <a class="nav-link " href="{% url 'monitoring:page_guru_dashboard' %}">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+    </a>
+  </li> -->
+
+  <li class="nav-heading">Siswa</li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav-nilai-siswa" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-file-text"></i><span><i>x̄</i> Nilai Siswa</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav-nilai-siswa" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        {% if guru.guru_mata_pelajaran_wajib is not None %}
+        <li>
+          <a href="{% url 'monitoring:page_guru_mean_nilai_siswa_wajib' %}">
+            <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+          </a>
+        </li>
+        {% else %}
+        {% endif %}
+        {% if guru.guru_mata_pelajaran_jurusan is not None %}
+        <li>
+          <a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan' %}">
+            <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+          </a>
+        </li>
+        {% else %}
+        {% endif %}
+      </ul>
+    </li><!-- End Components Nav -->
+    
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav-catatan" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-exclamation-circle"></i><span>Catatan Siswa</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav-catatan" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        {% if guru.guru_mata_pelajaran_wajib is not None %}
+        <li>
+          <a href="{% url 'monitoring:page_guru_catatan_wajib' %}">
+            <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+          </a>
+        </li>
+        {% else %}
+        {% endif %}
+        {% if guru.guru_mata_pelajaran_jurusan is not None %}
+        <li>
+          <a href="{% url 'monitoring:page_guru_catatan_jurusan' %}">
+            <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+          </a>
+        </li>
+        {% else %}
+        {% endif %}
+      </ul>
+    </li><!-- End Components Nav -->
+
+  <!-- <li class="nav-item">
+    <a class="nav-link collapsed" href="#">
+      <i class="bi bi-people"></i>
+      <span>Perfoma Kelas</span>
+    </a>
+  </li> -->
+  <!-- End Profile Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'monitoring:page_guru_performa_kelas_landing' %}">
+        <i class="bi bi-speedometer2"></i>
+        <span>Performa Kelas</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+    {% if guru.guru_wali_kelas is not None %}
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'monitoring:page_guru_wali_kelas' %}">
+        <i class="bi bi-clipboard-check"></i>
+        <span>Wali Kelas</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+    {% else %}
+    {% endif %}
+
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav-performa-kelas" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>Perfoma Kelas</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav-performa-kelas" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        {% for data in kelas %}
+        <li>
+          <a href="#">
+            <i class="bi bi-circle"></i><span>{{ data.skl_k_kelas_nama }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </li> -->
+
+
+
+  <li class="nav-heading">Nilai Tugas</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav-pengetahuan" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-file-text"></i><span>Pengetahuan</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav-pengetahuan" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_pengetahuan_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+
+
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav-keterampilan" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-puzzle"></i><span>Keterampilan</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav-keterampilan" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_keterampilan_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_keterampilan_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav-sikap" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-person-check"></i><span>Sikap Sosial</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav-sikap" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_sikap_sosial_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_sikap_sosial_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+  
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav-spiritual" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-blockquote-right"></i><span>Sikap Spiritual</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav-spiritual" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_sikap_spiritual_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_sikap_spiritual_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+
+  
+
+  <li class="nav-heading">Nilai Lainnya</li>
+  <li class="nav-item">
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav-kkm" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-check-all"></i><span>Kelola KKM</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav-kkm" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        {% if guru.guru_mata_pelajaran_wajib is not None %}
+        <li>
+          <a href="{% url 'monitoring:page_guru_kkm_wajib' %}">
+            <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+          </a>
+        </li>
+        {% else %}
+        {% endif %}
+        {% if guru.guru_mata_pelajaran_jurusan is not None %}
+        <li>
+          <a href="{% url 'monitoring:page_guru_kkm_jurusan' %}">
+            <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+          </a>
+        </li>
+        {% else %}
+        {% endif %}
+      </ul>
+    </li><!-- End Components Nav -->
+    <a class="nav-link collapsed" data-bs-target="#components-nav-ujian" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-sticky"></i><span>Ulangan</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+
+    <ul id="components-nav-ujian" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_ulangan_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_ulangan_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav-uts" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-calendar-week"></i><span>Ujian Tengah Semester</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav-uts" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_uts_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_uts_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav-uas" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-flag"></i><span>Ujian Akhir Semester</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav-uas" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_uas_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_uas_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+
+
+  <li class="nav-heading">Kompetensi Dasar</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav-kompetensi-dasar" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-book"></i><span>Data Kompetensi Dasar</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav-kompetensi-dasar" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      {% if guru.guru_mata_pelajaran_wajib is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_kompetensi_dasar_wajib' %}">
+          <i class="bi bi-circle"></i><span>Mapel Wajib</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+      {% if guru.guru_mata_pelajaran_jurusan is not None %}
+      <li>
+        <a href="{% url 'monitoring:page_guru_list_kompetensi_dasar_jurusan' %}">
+          <i class="bi bi-circle"></i><span>Mapel Jurusan</span>
+        </a>
+      </li>
+      {% else %}
+      {% endif %}
+    </ul>
+  </li><!-- End Components Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'monitoring:page_guru_profil' %}">
+      <i class="bi bi-person"></i>
+      <span>Profil</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'logout' %}">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Logout</span>
+    </a>
+  </li><!-- End Login Page Nav -->
+</ul>
+
+</aside>
+<!-- End Sidebar -->
+
+<!-- END DASHBOARD -->
+{% endblock dashboard %}
+
+{% block content %}
+	{% block sub_content %}
+	{% endblock sub_content %}
+{% endblock content %}

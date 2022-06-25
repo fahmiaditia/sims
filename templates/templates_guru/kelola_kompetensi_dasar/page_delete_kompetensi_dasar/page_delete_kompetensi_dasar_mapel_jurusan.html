@@ -1,0 +1,50 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Hapus Kompetensi Dasar {{ guru.guru_mata_pelajaran_jurusan }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Hapus Kompetensi Dasar Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_jurusan }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_kompetensi_dasar_jurusan' %}">Kompetensi Dasar</a></li>
+	      <li class="breadcrumb-item active">Hapus Kompetensi Dasar</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<form method="POST">
+				{% csrf_token %}
+				<table class="table table-hover">
+					<thead>
+						<th scope="col" style="width:200px;">Keterangan</th>
+						<th scope="col">Data</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Nomor KD</td>
+							<td>: {{ object.guru_nomor_kd }}</td>
+						</tr>
+						<tr>
+							<td>Kelas</td>
+							<td>: {{ object.guru_kompetensi_dasar_kelas }}</td>
+						</tr>
+						<tr>
+							<td>Semester</td>
+							<td>: {{ object.guru_kompetensi_dasar_semester }}</td>
+						</tr>
+						<tr>
+							<td>Kompetensi Dasar</td>
+							<td>: {{ object.guru_kompetensi_dasar }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<button type="submit" class="btn btn-danger">Hapus</button>
+				<a class="btn btn-primary" href="{% url 'monitoring:page_guru_list_kompetensi_dasar_jurusan' %}">Batal</a>
+			</form>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

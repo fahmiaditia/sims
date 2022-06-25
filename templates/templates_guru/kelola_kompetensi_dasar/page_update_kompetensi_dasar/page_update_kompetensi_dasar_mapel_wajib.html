@@ -1,0 +1,45 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Update Kompetensi Dasar {{ guru.guru_mata_pelajaran_wajib }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Update Kompetensi Dasar Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_wajib }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_kompetensi_dasar_wajib' %}">Kompetensi Dasar</a></li>
+	      <li class="breadcrumb-item active">Update Kompetensi Dasar</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<!-- Multi Columns Form -->
+			<h1 class="card-title">Update Kompetensi Dasar</h1>
+			<form class="row g-3" method="POST">
+				{% csrf_token %}
+				<div class="col-md-12">
+					<label for="inputName5" class="form-label">Nomor KD</label>
+					{{ form.guru_nomor_kd }}
+				</div>
+				<div class="col-md-12">
+					<label for="inputName5" class="form-label">Kelas</label>
+					{{ form.guru_kompetensi_dasar_kelas }}
+				</div>
+				<div class="col-md-12">
+					<label for="inputName5" class="form-label">Semester</label>
+					{{ form.guru_kompetensi_dasar_semester }}
+				</div>
+				<div class="col-md-12">
+					<label for="inputName5" class="form-label">Kompetensi Dasar</label>
+					{{ form.guru_kompetensi_dasar }}
+				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">Simpan</button>
+				</div>
+			</form><!-- End Multi Columns Form -->
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

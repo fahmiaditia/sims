@@ -1,0 +1,439 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% block title %}Detail Nilai {{ identitas_siswa.murid_nama }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Mean Nilai Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_wajib }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_mean_nilai_siswa_wajib' %}">x̄ Nilai Siswa</a></li>
+	      <li class="breadcrumb-item active">Detail</li>
+	    </ol>
+	</nav>
+	
+	<div class="row">
+		<div class="col-md-6">
+			<!-- Identitas siswa -->
+			<div class="card">
+				<div class="card-body">
+					<h1 class="card-title">Identitas</h1>
+					<table class="table table-hover">
+						<tr>
+							<td>Nama Lengkap</td>
+							<td>: {{ identitas_siswa.murid_nama }}</td>
+						</tr>
+						<tr>
+							<td>Kelas</td>
+							<td>: {{ identitas_siswa.murid_kelas }}</td>
+						</tr>
+						<tr>
+							<td>NISN</td>
+							<td>: {{ identitas_siswa.murid_nisn }}</td>
+						</tr>
+						<tr>
+							<td>NSS</td>
+							<td>: {{ identitas_siswa.murid_nss }}</td>
+						</tr>
+						<tr>
+							<td>Nomor Induk</td>
+							<td>: {{ identitas_siswa.murid_nomor_induk }}</td>
+						</tr>
+						<tr>
+							<td>Semester</td>
+							<td>: {{ identitas_siswa.murid_semester }}</td>
+						</tr>
+						<tr>
+							<td>Tahun Ajaran</td>
+							<td>: {{ identitas_siswa.murid_tahun_ajaran }}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<!-- Chart bunder siswa -->
+			<div class="card">
+				<div class="card-body">
+					<h1 class="card-title">Bagan Siswa</h1>
+
+					<!-- Doughnut Chart -->
+					<canvas id="doughnutChart" style="max-height: 400px;"></canvas>
+					<script>
+		        var data_bagan_js = JSON.parse("{{ data_bagan|escapejs }}");
+		        console.log("data_bagan_js:", data_bagan_js)
+						document.addEventListener("DOMContentLoaded", () => {
+							new Chart(document.querySelector('#doughnutChart'), {
+								type: 'doughnut',
+								data: {
+								labels: [
+									'Pengetahuan',
+									'Keterampilan',
+									'Sosial',
+									'Spiritual',
+									],
+								datasets: [{
+								label: 'My First Dataset',
+								data: data_bagan_js,
+								backgroundColor: [
+									'rgb(255, 99, 132)',
+									'rgb(54, 162, 235)',
+									'rgb(255, 205, 86)',
+									'rgb(218, 94, 255)'
+									],
+								hoverOffset: 4
+									}]
+								}
+							});
+						});
+					</script>
+					<!-- End Doughnut CHart -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- nilai pengetahuan -->
+
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Nilai Pengetahuan</h1>
+              <!-- Line Chart -->
+              <canvas id="lineChart_pengetahuan" style="max-height: 400px;"></canvas>
+              <script>
+              	var kd_pengetahuan = JSON.parse("{{ grafik_pengetahuan.kd | escapejs }}");
+              	var P1 = JSON.parse("{{ grafik_pengetahuan.nilai_P1_TGS | escapejs }}");
+              	var P2 = JSON.parse("{{ grafik_pengetahuan.nilai_P2_TLS | escapejs }}");
+              	var P3 = JSON.parse("{{ grafik_pengetahuan.nilai_P3_TLS | escapejs }}");
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#lineChart_pengetahuan'), {
+                    type: 'line',
+                    data: {
+                      labels: kd_pengetahuan,
+                      datasets: [
+                      {
+                        label: 'Nilai P1 TGS',
+                        data: P1,
+                        fill: false,
+                        borderColor: 'rgb(247, 104, 104)',
+                        tension: 0.1
+                      },
+                      {
+                        label: 'Nilai P2 TLS',
+                        data: P2,
+                        fill: false,
+                        borderColor: 'rgb(240, 155, 65)',
+                        tension: 0.1
+                      },
+                      {
+                        label: 'Nilai P3 TGS',
+                        data: P3,
+                        fill: false,
+                        borderColor: 'rgb(139, 74, 237)',
+                        tension: 0.1
+                      },
+                      ]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script>
+              <!-- End Line CHart -->
+              <br>	
+              <br>	
+			<table class="table table-hover">
+				<thead>
+					<th scope="col">Kelas</th>
+					<th scope="col">Tahun Ajaran</th>
+					<th scope="col">Semester</th>
+					<th scope="col">Kompetensi Dasar</th>
+					<th scope="col">Penilaian Ke</th>
+					<th scope="col">Nilai P1 TGS</th>
+					<th scope="col">Nilai P2 TLS</th>
+					<th scope="col">Nilai P3 TLS</th>
+				</thead>
+				<tbody>
+					{% for data in nilai_pengetahuan %}
+						<tr>
+							<td>{{ data.mo_kelas }}</td>
+							<td>{{ data.mo_tahun_ajaran }}</td>
+							<td>{{ data.mo_semester }}</td>
+							<td>{{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}</td>
+							<td>{{ data.mo_penilaian_ke }}</td>
+							<td>{{ data.mo_nilai_P1_TGS }}</td>
+							<td>{{ data.mo_nilai_P2_TLS }}</td>
+							<td>{{ data.mo_nilai_P3_TLS }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+	<!-- nilai keterampilan -->
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Nilai Keterampilan</h1>
+			<!-- Line Chart -->
+              <canvas id="lineChart_keterampilan" style="max-height: 400px;"></canvas>
+              <script>
+              	var kd_keterampilan = JSON.parse("{{ grafik_keterampilan.kd | escapejs }}");
+              	var praktek = JSON.parse("{{ grafik_keterampilan.praktek | escapejs }}");
+              	var produk = JSON.parse("{{ grafik_keterampilan.produk | escapejs }}");
+              	var proyek = JSON.parse("{{ grafik_keterampilan.proyek | escapejs }}");
+              	var portofolio = JSON.parse("{{ grafik_keterampilan.portofolio | escapejs }}");
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#lineChart_keterampilan'), {
+                    type: 'line',
+                    data: {
+                      labels: kd_keterampilan,
+                      datasets: [
+                      {
+                        label: 'Praktek',
+                        data: praktek,
+                        fill: false,
+                        borderColor: 'rgb(247, 104, 104)',
+                        tension: 0.1
+                      },
+                      {
+                        label: 'Produk',
+                        data: produk,
+                        fill: false,
+                        borderColor: 'rgb(240, 155, 65)',
+                        tension: 0.1
+                      },
+                      {
+                        label: 'Proyek',
+                        data: proyek,
+                        fill: false,
+                        borderColor: 'rgb(139, 74, 237)',
+                        tension: 0.1
+                      },
+                      {
+                        label: 'Portofolio',
+                        data: portofolio,
+                        fill: false,
+                        borderColor: 'rgb(74, 175, 237)',
+                        tension: 0.1
+                      },
+                      ]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script>
+              <!-- End Line CHart -->
+              <br>	
+              <br>	
+			<table class="table table-hover">
+				<thead>
+					<th scope="col">Kelas</th>
+					<th scope="col">Tahun Ajaran</th>
+					<th scope="col">Semester</th>
+					<th scope="col">Kompetensi Dasar</th>
+					<th scope="col">Penilaian Ke</th>
+					<th scope="col">Praktek</th>
+					<th scope="col">Produk</th>
+					<th scope="col">Proyek</th>
+					<th scope="col">Portofolio</th>
+				</thead>
+				<tbody>
+					{% for data in nilai_keterampilan %}
+						<tr>
+							<td>{{ data.mo_kelas }}</td>
+							<td>{{ data.mo_tahun_ajaran }}</td>
+							<td>{{ data.mo_semester }}</td>
+							<td>{{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}</td>
+							<td>{{ data.mo_penilaian_ke }}</td>
+							<td>{{ data.mo_praktek }}</td>
+							<td>{{ data.mo_produk }}</td>
+							<td>{{ data.mo_proyek }}</td>
+							<td>{{ data.mo_portofolio }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+	<!-- nilai sikap sosial -->
+
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Nilai Sikap Sosial</h1>
+			<!-- Bar Chart -->
+              <canvas id="barChart_sosial" style="max-height: 400px;"></canvas>
+              <script>
+              	var nilai_sosial = JSON.parse("{{ grafik_sikap_sosial.MTOO | escapejs }}")
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart_sosial'), {
+                    type: 'bar',
+                    data: {
+                      labels: ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'],
+                      datasets: [{
+                        label: 'Bar Chart',
+                        data: nilai_sosial,
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(201, 203, 207, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      },
+                      plugins: {
+                      	legend: false,
+                      }
+                    }
+                  });
+                });
+            </script>
+            <small>Penilaian terbanyak: <b>{{ grafik_sikap_sosial.TO }}</b></small>
+            <br>
+            <br>
+            <!-- End Bar CHart -->
+			<table class="table table-hover">
+				<thead>
+					<th scope="col">Kelas</th>
+					<th scope="col">Tahun Ajaran</th>
+					<th scope="col">Semester</th>
+					<th scope="col">Kompetensi Dasar</th>
+					<th scope="col">Penilaian Ke</th>
+					<th scope="col">Nilai</th>
+				</thead>
+				<tbody>
+					{% for data in nilai_sikap_sosial %}
+						<tr>
+							<td>{{ data.mo_kelas }}</td>
+							<td>{{ data.mo_tahun_ajaran }}</td>
+							<td>{{ data.mo_semester }}</td>
+							<td>{{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}</td>
+							<td>{{ data.mo_penilaian_ke }}</td>
+							<td>{{ data.mo_nilai }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+	<!-- nilai sikap sosial -->
+
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Nilai Sikap Spiritual</h1>
+			<!-- Bar Chart -->
+              <canvas id="barChart_spiritual" style="max-height: 400px;"></canvas>
+              <script>
+              	var nilai_spiritual = JSON.parse("{{ grafik_sikap_spiritual.MTOO | escapejs }}")
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart_spiritual'), {
+                    type: 'bar',
+                    data: {
+                      labels: ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'],
+                      datasets: [{
+                        label: 'Bar Chart',
+                        data: nilai_spiritual,
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(201, 203, 207, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      },
+                      plugins: {
+                      	legend: false,
+                      }
+                    }
+                  });
+                });
+            </script>
+            <small>Penilaian terbanyak: <b>{{ grafik_sikap_spiritual.TO }}</b></small>
+            <br>
+            <br>
+            <!-- End Bar CHart -->
+			<table class="table table-hover">
+				<thead>
+					<th scope="col">Kelas</th>
+					<th scope="col">Tahun Ajaran</th>
+					<th scope="col">Semester</th>
+					<th scope="col">Kompetensi Dasar</th>
+					<th scope="col">Penilaian Ke</th>
+					<th scope="col">Nilai</th>
+				</thead>
+				<tbody>
+					{% for data in nilai_sikap_spiritual %}
+						<tr>
+							<td>{{ data.mo_kelas }}</td>
+							<td>{{ data.mo_tahun_ajaran }}</td>
+							<td>{{ data.mo_semester }}</td>
+							<td>{{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}</td>
+							<td>{{ data.mo_penilaian_ke }}</td>
+							<td>{{ data.mo_nilai }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

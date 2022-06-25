@@ -1,0 +1,64 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+
+{% block title %}
+	Input Nilai Mapel Wajib
+{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Input Nilai Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_wajib }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_sikap_sosial_wajib' %}">Nilai</a></li>
+	      <li class="breadcrumb-item active">Input Nilai</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body" style="overflow-x: auto;">
+		  <!-- Multi Columns Form -->
+		  <form class="row g-3" method="POST" style="width: 1200px;">
+		    <!-- Table with hoverable rows -->
+		      <table class="table table-hover">
+		        <thead>
+		          <tr>
+		            <th scope="col">Siswa</th>
+		            <th scope="col">Kelas</th>
+		            <th scope="col">Tahun Ajaran</th>
+		            <th scope="col">Semester</th>
+		            <th scope="col">KD</th>
+		            <th scope="col">Penilaian Ke</th>
+		            <th scope="col">Nilai</th>
+		            <th scope="col">Hapus</th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          {{ formset.management_form }}
+		          {% for data in formset %}
+		          	{% csrf_token %}
+		          	{% for hidden in data.hidden_fields %}
+		          		{{ hidden }}
+		          	{% endfor %}
+		          <tr>
+		            <th scope="row">{{ data.mo_siswa }}</th>
+		            <td>{{ data.mo_kelas }}</td>
+		            <td>{{ data.mo_tahun_ajaran }}</td>
+		            <td>{{ data.mo_semester }}</td>
+		            <td>{{ data.mo_kompetensi_dasar }}</td>
+		            <td>{{ data.mo_penilaian_ke }}</td>
+		            <td>{{ data.mo_nilai }}</td>
+		            <td>{{ data.DELETE }}</td>
+		          </tr>
+		          {% endfor %}
+		        </tbody>
+		      </table>
+		      <!-- End Table with hoverable rows -->
+		      <button type="submit" class="btn btn-primary">Simpan</button>
+		  </form>
+		<!-- End Multi Columns Form -->
+		</div>
+	</div>
+	
+</main>
+{% endblock sub_content %}

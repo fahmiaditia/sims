@@ -1,0 +1,69 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Update Nilai {{ guru.guru_mata_pelajaran_wajib }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Update Nilai Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_wajib }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_ulangan_wajib' %}">Nilai Ulangan</a></li>
+	      <li class="breadcrumb-item active">Update Nilai Ulangan</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<!-- Multi Columns Form -->
+			<h1 class="card-title">Update Nilai</h1>
+			<form class="row g-3" method="POST">
+				{% csrf_token %}
+				<div class="col-md-4">
+					<label for="inputName5" class="form-label">Status</label>
+					{{ form.mo_status }}
+				</div>
+				<div class="col-md-8">
+					<label for="inputName5" class="form-label">Siswa</label>
+					{{ form.mo_siswa }}
+				</div>
+				<div class="col-md-6">
+					<label for="inputEmail5" class="form-label">Kelas</label>
+					{{ form.mo_kelas }}
+				</div>
+				<div class="col-md-6">
+					<label for="inputPassword5" class="form-label">Tahun Ajaran</label>
+					{{ form.mo_tahun_ajaran }}
+				</div>
+				<div class="col-12">
+					<label for="inputAddress5" class="form-label">Semester</label>
+					{{ form.mo_semester }}
+				</div>
+				<div class="col-12">
+					<label for="inputAddress2" class="form-label">Kompetensi Dasar</label>
+					{{ form.mo_kompetensi_dasar }}
+				</div>
+				<div class="col-md-3">
+					<label for="inputCity" class="form-label">Ulangan Ke</label>
+					{{ form.mo_ulangan_ke }}
+				</div>
+				<div class="col-md-3">
+					<label for="inputState" class="form-label">KKM</label>
+					{{ form.mo_kkm }}
+				</div>
+				<div class="col-md-3">
+					<label for="inputZip" class="form-label">Nilai</label>
+					{{ form.mo_nilai }}
+				</div>
+				<div class="col-md-3">
+					<label for="inputZip" class="form-label">Ketuntasan</label>
+					{{ form.mo_ketuntasan }}
+				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">Simpan</button>
+				</div>
+			</form><!-- End Multi Columns Form -->
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

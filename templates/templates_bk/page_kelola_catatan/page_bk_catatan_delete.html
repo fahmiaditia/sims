@@ -1,0 +1,54 @@
+{% extends 'templates_bk/dashboard_bk.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Hapus Catatan{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Hapus Catatan</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_bk_dashboard' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_bk_catatan' %}">Catatan</a></li>
+	      <li class="breadcrumb-item active">Delete</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<form method="POST">
+				{% csrf_token %}
+				<table class="table table-hover">
+					<thead>
+						<th scope="col" style="width:200px;">Keterangan</th>
+						<th scope="col">Data</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Siswa</td>
+							<td>: {{ object.bk_catatan_siswa }}</td>
+						</tr>
+						<tr>
+							<td>Status</td>
+							<td>: 
+								{% if object.bk_catatan_status == "Peringatan" %}
+									<span class="badge bg-danger rounded-pill">Peringatan</span>
+								{% elif object.bk_catatan_status == "Himbauan" %}
+									<span class="badge bg-warning rounded-pill">Himbauan</span>
+								{% elif object.bk_catatan_status == "Pengumuman" %}
+									<span class="badge bg-primary rounded-pill">Pengumuman</span>
+								{% endif %}
+							</td>
+						</tr>
+						<tr>
+							<td>Catatan</td>
+							<td>: {{ object.bk_catatan }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<button type="submit" class="btn btn-danger">Hapus</button>
+				<a class="btn btn-primary" href="{% url 'monitoring:page_bk_catatan' %}">Batal</a>
+			</form>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

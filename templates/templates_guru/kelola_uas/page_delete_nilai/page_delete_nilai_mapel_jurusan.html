@@ -1,0 +1,58 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Hapus Nilai UAS {{ guru.guru_mata_pelajaran_jurusan }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Hapus Nilai UAS Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_jurusan }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_uas_jurusan' %}">Nilai UAS</a></li>
+	      <li class="breadcrumb-item active">Hapus Nilai UAS</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<form method="POST">
+				{% csrf_token %}
+				<table class="table table-hover">
+					<thead>
+						<th scope="col">Keterangan</th>
+						<th scope="col">Data</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Siswa</td>
+							<td>: {{ object.mo_siswa }}</td>
+						</tr>
+						<tr>
+							<td>Kelas</td>
+							<td>: {{ object.mo_kelas }}</td>
+						</tr>
+						<tr>
+							<td>Tahun Ajaran</td>
+							<td>: {{ object.mo_tahun_ajaran }}</td>
+						</tr>
+						<tr>
+							<td>KKM</td>
+							<td>: {{ object.mo_kkm }}</td>
+						</tr>
+						<tr>
+							<td>Nilai</td>
+							<td>: {{ object.mo_nilai }}</td>
+						</tr>
+						<tr>
+							<td>Ketuntasan</td>
+							<td>: {{ object.mo_ketuntasan }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<button type="submit" class="btn btn-danger">Hapus</button>
+				<a class="btn btn-primary" href="{% url 'monitoring:page_guru_list_uas_jurusan' %}">Batal</a>
+			</form>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

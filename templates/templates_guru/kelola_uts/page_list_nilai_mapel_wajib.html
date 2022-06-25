@@ -1,0 +1,106 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}List Nilai UTS {{ guru.guru_mata_pelajaran_wajib }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Nilai UTS Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_wajib }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item active">Nilai UTS</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Filter Nilai</h1>
+			<form>
+				<div class="row">
+					<div class="col-md-4">
+			          {{ nilai.form.mo_siswa.label_tag }}
+			          {% render_field nilai.form.mo_siswa class='form-control' %}
+			        </div>
+			        <div class="col-md-4">
+			          {{ nilai.form.mo_status.label_tag }}
+			          {% render_field nilai.form.mo_status class='form-control' %}
+			        </div>
+			        <div class="col-md-4">
+			          {{ nilai.form.mo_tahun_ajaran.label_tag }}
+			          {% render_field nilai.form.mo_tahun_ajaran class='form-control' %}
+			        </div>
+			        <div class="col-md-4">
+			          {{ nilai.form.mo_kelas.label_tag }}
+			          {% render_field nilai.form.mo_kelas class='form-control' %}
+			        </div>
+			        <div class="col-md-4">
+			          {{ nilai.form.mo_semester.label_tag }}
+			          {% render_field nilai.form.mo_semester class='form-control' %}
+			        </div>
+			        <div class="col-md-4">
+			          {{ nilai.form.mo_penilaian_ke.label_tag }}
+			          {% render_field nilai.form.mo_penilaian_ke class='form-control' %}
+			        </div>
+			        <div class="text-center">
+			          <button type="submit" class="btn btn-primary">Cari</button>
+			        </div>
+		        </div>
+			</form>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-body" style="overflow-x: auto;">
+			<h1 class="card-title">List Nilai</h1>
+			<!-- Table with stripped rows -->
+			<a href="{% url 'monitoring:page_guru_input_uts_wajib' %}" class="btn btn-primary btn-sm">Tambah Nilai</a>
+			  <table class="table table-hover datatable" style="font-size:13px;">
+			    <thead>
+			      <tr>
+			        <th scope="col">Status</th>
+			        <th scope="col">Siswa</th>
+			        <th scope="col">Kelas</th>
+			        <th scope="col">Tahun Ajaran</th>
+			        <th scope="col">Semester</th>
+			        <th scope="col">KKM</th>
+			        <th scope="col">Nilai</th>
+			        <th scope="col">Ketuntasan</th>
+			        <th scope="col">Aksi</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			    {% for nilai in nilai.qs %}
+			      <tr>
+			      	<th scope="row">
+			      		{% if nilai.mo_status == "Baru" %}
+			        	<span class="badge bg-success rounded-pill">{{ nilai.mo_status }}</span>
+			        	{% else %}
+			        	<span class="badge bg-primary rounded-pill">{{ nilai.mo_status }}</span>
+			        	{% endif %}
+			      	</th>
+			        <th>{{ nilai.mo_siswa.murid_nama }}</th>
+			        <td>{{ nilai.mo_kelas }}</td>
+			        <td>{{ nilai.mo_tahun_ajaran }}</td>
+			        <td>{{ nilai.mo_semester }}</td>
+			        <td>{{ nilai.mo_kkm }}</td>
+			        <td>{{ nilai.mo_nilai }}</td>
+			        <td>
+			        	{% if nilai.mo_ketuntasan == "Tuntas" %}
+			        	<span class="badge bg-success rounded-pill">{{ nilai.mo_ketuntasan }}</span>
+			        	{% else %}
+			        	<span class="badge bg-danger rounded-pill">{{ nilai.mo_ketuntasan }}</span>
+			        	{% endif %}
+			        </td>
+			        <td>
+			        	<a href="{% url 'monitoring:page_guru_update_uts_wajib' nilai.mo_penilaian_uts_uuid %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+			        	<a href="{% url 'monitoring:page_guru_delete_uts_wajib' nilai.mo_penilaian_uts_uuid %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+			        </td>
+			      </tr>
+			    {% endfor %}
+			    </tbody>
+			  </table>
+			  <!-- End Table with stripped rows -->
+		</div>
+	</div>
+	  
+</main>
+{% endblock sub_content %}

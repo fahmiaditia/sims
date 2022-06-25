@@ -1,0 +1,42 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} KKM {{ guru.guru_mata_pelajaran_jurusan }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Kriteria Ketuntasan Minimal <b>{{ guru.guru_mata_pelajaran_jurusan }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item active">KKM</li>
+	    </ol>
+	</nav>
+
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">List KKM</h1>
+			<a href="{% url 'monitoring:page_guru_kkm_jurusan_create' %}" class="btn btn-primary btn-sm">Tambah</a>
+			<table class="table table-hover datatable">
+				<thead>
+					<th>Jenjang Kelas</th>
+					<th>KKM</th>
+					<th>Aksi</th>
+				</thead>
+				<tbody>
+					{% for data in kkm %}
+						<tr>
+							<td>{{ data.mo_jenjang_kelas }}</td>
+							<td>{{ data.mo_kkm }}</td>
+							<td>
+			        	<a href="{% url 'monitoring:page_guru_kkm_jurusan_update' data.mo_penilaian_kkm_uuid %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+			        	<a href="{% url 'monitoring:page_guru_kkm_jurusan_delete' data.mo_penilaian_kkm_uuid %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+			        </td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

@@ -1,0 +1,79 @@
+{% extends 'templates_ekskul/dashboard_ekskul.html' %}
+{% load static %}
+{% block title %}Kejuaraan {{ info.skl_ekskul }} {% endblock title %}
+{% load widget_tweaks %}
+
+{% block sub_content %}
+<main id="main">
+	<div class="pagetitle">
+      <h1>Kelola Juara Ektrakulikuler <b>{{ info.skl_ekskul }}</b></h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_ekskul_nilai'%}">Monitoring</a></li>
+          <li class="breadcrumb-item">Kejuaraan</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+  <div class="card">
+    <div class="card-body">
+      <!-- Multi Columns Form -->
+      <h1 class="card-title">Filter</h1>
+
+      <form class="row g-3">
+        <div class="col-md-12">
+          <label for="inputName5" class="form-label">Siswa</label>
+          {% render_field juara.form.mo_siswa class="form-control" %}
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail5" class="form-label">Tahun</label>
+          {% render_field juara.form.mo_tahun class="form-control" %}
+        </div>
+        <div class="col-md-6">
+          <label for="inputPassword5" class="form-label">Tingkatan</label>
+          {% render_field juara.form.mo_tingkatan class="form-control" %}
+        </div>
+        <div class="col-12">
+          <label for="inputAddress5" class="form-label">Juara</label>
+          {% render_field juara.form.mo_juara class="form-control" %}
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Cari</button>
+        </div>
+      </form><!-- End Multi Columns Form -->
+    </div>
+  </div>
+	<div class="card">
+		<div class="card-body">
+			<!-- No Labels Form -->
+			<h1 class="card-title">Tabel Kejuaraan</h1>
+      <a href="{% url 'monitoring:page_ekskul_kejuaraan_create' %}" class="btn btn-primary btn-sm">Tambah Juara</a>
+      <table class="table table-hover datatable">
+        <thead>
+          <th scope="col">Siswa</th>
+          <th scope="col">Tahun</th>
+          <th scope="col">Tingkatan</th>
+          <th scope="col">Pelaksana</th>
+          <th scope="col">Kejuaraan</th>
+          <th scope="col">Juara</th>
+        </thead>
+        <tbody>
+          {% for data in juara.qs %}
+          <tr>
+            <td>{{ data.mo_siswa.murid_nama }}</td>
+            <td>{{ data.mo_tahun }}</td>
+            <td>{{ data.mo_tingkatan }}</td>
+            <td>{{ data.mo_pelaksana }}</td>
+            <td>{{ data.mo_kejuaraan }}</td>
+            <td>{{ data.mo_juara }}</td>
+            <td>
+              <a href="{% url 'monitoring:page_ekskul_kejuaraan_update' data.mo_juara_ekskul_uuid %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'monitoring:page_ekskul_kejuaraan_delete' data.mo_juara_ekskul_uuid %}" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

@@ -1,0 +1,73 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}List Kompetensi Dasar {{ guru.guru_mata_pelajaran_jurusan }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Kompetensi Dasar Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_jurusan }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item active">Kompetensi Dasar</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Filter Kompetensi Dasar</h1>
+			<form>
+			<div class="row">
+			<div class="col-md-4">
+	          {{ kompetensi_dasar.form.guru_kompetensi_dasar_kelas.label_tag }}
+	          {% render_field kompetensi_dasar.form.guru_kompetensi_dasar_kelas class='form-control' %}
+	        </div>
+	        <div class="col-md-4">
+	          {{ kompetensi_dasar.form.guru_kompetensi_dasar_semester.label_tag }}
+	          {% render_field kompetensi_dasar.form.guru_kompetensi_dasar_semester class='form-control' %}
+	        </div>
+	        <br>
+	        <br>
+	        <br>
+	        <div class="text-center">
+	          <button type="submit" class="btn btn-primary">Filter</button>
+	        </div>
+        </div>
+			</form>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-body" style="overflow-x: auto;">
+			<h1 class="card-title">List Kompetensi Dasar</h1>
+			<!-- Table with stripped rows -->
+			<a href="{% url 'monitoring:page_guru_input_kompetensi_dasar_jurusan' %}" class="btn btn-primary">Tambah Kompetensi Dasar</a>
+			  <table class="table table-hover datatable">
+			    <thead>
+			      <tr>
+			        <th scope="col">Nomor KD</th>
+			        <th scope="col">Kelas</th>
+			        <th scope="col">Semester</th>
+			        <th scope="col">Kompetensi Dasar</th>
+			        <th scope="col">Aksi</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			    {% for kompetensi_dasar in kompetensi_dasar.qs %}
+			      <tr>
+			        <th scope="row">{{ kompetensi_dasar.guru_nomor_kd }}</th>
+			        <td>{{ kompetensi_dasar.guru_kompetensi_dasar_kelas }}</td>
+			        <td>{{ kompetensi_dasar.guru_kompetensi_dasar_semester }}</td>
+			        <td>{{ kompetensi_dasar.guru_kompetensi_dasar }}</td>
+			        <td>
+			        	<a href="{% url 'monitoring:page_guru_update_kompetensi_dasar_jurusan' kompetensi_dasar.pk %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+			        	<a href="{% url 'monitoring:page_guru_delete_kompetensi_dasar_jurusan' kompetensi_dasar.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+			        </td>
+			      </tr>
+			    {% endfor %}
+			    </tbody>
+			  </table>
+			  <!-- End Table with stripped rows -->
+		</div>
+	</div>
+	  
+</main>
+{% endblock sub_content %}

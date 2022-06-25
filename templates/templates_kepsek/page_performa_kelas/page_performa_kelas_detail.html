@@ -1,0 +1,705 @@
+{% extends 'templates_kepsek/dashboard_kepsek.html' %}
+{% load static %}
+{% block title %}Detail Performa Kelas{% endblock title %}
+{% load widget_tweaks %}
+
+
+{% block sub_content %}
+<main id='main'>
+
+  <script type="text/javascript">
+    var aa = JSON.parse("{{ data_grafik | escapejs }}");
+    console.log(aa);
+  </script>
+
+	<div class="pagetitle">
+      <h1>Detail Nilai Kelas <b>{{ kelas.skl_k_kelas_nama }}</b></h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_kepsek_performa_kelas_landing'%}">Monitoring</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_kepsek_performa_kelas_landing'%}">Performa Kelas</a></li>
+          <li class="breadcrumb-item">Detail</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">Grafik</h1>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Doughnut Chart -->
+            <canvas id="doughnutChart_1" style="max-height: 400px;"></canvas>
+            <script>
+              var data_1 = JSON.parse("{{ data_grafik | escapejs }}");
+              console.log(data_1);
+              document.addEventListener("DOMContentLoaded", () => {
+                new Chart(document.querySelector('#doughnutChart_1'), {
+                type: 'doughnut',
+                data: {
+                  labels: [
+                    'Pengetahuan',
+                    'Keterampilan',
+                  ],
+                  datasets: [
+                    {
+                      label: 'My First Dataset',
+                      data: [data_1['pengetahuan'], data_1['keterampilan']],
+                      backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                      ],
+                      hoverOffset: 4
+                    }
+                  ]
+                }
+                });
+              });
+              </script>
+            <!-- End Doughnut CHart -->
+          </div>
+          <div class="col-md-6">
+            <!-- Doughnut Chart -->
+            <canvas id="doughnutChart_2" style="max-height: 400px;"></canvas>
+            <script>
+              var data_2 = JSON.parse("{{ data_grafik | escapejs }}");
+              console.log(data_2);
+              document.addEventListener("DOMContentLoaded", () => {
+                new Chart(document.querySelector('#doughnutChart_2'), {
+                type: 'doughnut',
+                data: {
+                  labels: [
+                    'Sikap Sosial',
+                    'Sikap Spiritual',
+                  ],
+                  datasets: [
+                    {
+                      label: 'My First Dataset',
+                      data: [data_2['sosial'], data_2['spiritual']],
+                      backgroundColor: [
+                        'rgb(215, 66, 245)',
+                        'rgb(182, 245, 66)',
+                      ],
+                      hoverOffset: 4
+                    }
+                  ]
+                }
+                });
+              });
+              </script>
+            <!-- End Doughnut CHart -->
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">Tabel Nilai Kelas {{ kelas.skl_k_kelas_nama }}</h1>
+      <!-- Bordered Tabs Justified -->
+      <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home_pengetahuan" type="button" role="tab" aria-controls="home" aria-selected="true">Pengetahuan</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile_keterampilan" type="button" role="tab" aria-controls="profile" aria-selected="false">Keterampilan</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact_sosial" type="button" role="tab" aria-controls="contact" aria-selected="false">Sikap Sosial</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact_spiritual" type="button" role="tab" aria-controls="contact" aria-selected="false">Sikap Spiritual</button>
+        </li>
+      </ul>
+      <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+        <div class="tab-pane fade show active" id="bordered-justified-home_pengetahuan" role="tabpanel" aria-labelledby="home-tab">
+          <table class="table table-hover datatable" style="font-size: 13px;">
+            <thead>
+              <th>Siswa</th>
+              <th>Tahun Ajaran</th>
+              <th>Semester</th>
+              <th>Kompetensi Dasar</th>
+              <th>Mapel Wajib</th>
+              <th>Mapel Jurusan</th>
+              <th>Penilaian Ke</th>
+              <th>Nilai P1 TGS</th>
+              <th>Nilai P2 TLS</th>
+              <th>Nilai P3 TLS</th>
+            </thead>
+            <tbody>
+              {% for data in data_angka.pengetahuan %}
+              <tr>
+                <td>{{ data.mo_siswa.murid_nama }}</td>
+                <td>{{ data.mo_tahun_ajaran }}</td>
+                <td>{{ data.mo_semester }}</td>
+                <td>
+                  <!-- Disabled Backdrop Modal -->
+                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#disablebackdrop_{{ data.mo_penilaian_pengetahuan_uuid }}">
+                    {{ data.mo_kompetensi_dasar.guru_nomor_kd }}
+                  </button>
+                  <div class="modal fade" id="disablebackdrop_{{ data.mo_penilaian_pengetahuan_uuid }}" tabindex="-1" data-bs-backdrop="false">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span class="badge rounded-pill bg-danger">Kelas {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_kelas }}</span>
+                          <span class="badge rounded-pill bg-warning">Semester {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_semester }}</span>
+                          <span class="badge rounded-pill bg-success">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</span>
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          <br>
+                          <br>
+                          {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Disabled Backdrop Modal-->
+                </td>
+                {% if data.mo_mata_pelajaran_wajib is not None %}
+                  <td>{{ data.mo_mata_pelajaran_wajib }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_mata_pelajaran_jurusan is not None %}
+                  <td>{{ data.mo_mata_pelajaran_jurusan }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                <td>{{ data.mo_penilaian_ke }}</td>
+                {% if data.mo_nilai_P1_TGS is not None %}
+                  <td class="text-center">{{ data.mo_nilai_P1_TGS }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_nilai_P2_TLS is not None %}
+                  <td class="text-center">{{ data.mo_nilai_P2_TLS }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_nilai_P3_TLS is not None %}
+                  <td class="text-center">{{ data.mo_nilai_P3_TLS }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="bordered-justified-profile_keterampilan" role="tabpanel" aria-labelledby="profile-tab">
+          <table class="table table-hover datatable" style="font-size: 13px;">
+            <thead>
+              <th>Siswa</th>
+              <th>Tahun Ajaran</th>
+              <th>Semester</th>
+              <th>Kompetensi Dasar</th>
+              <th>Mapel Wajib</th>
+              <th>Mapel Jurusan</th>
+              <th>Penilaian Ke</th>
+              <th>Nilai Praktek</th>
+              <th>Nilai Produk</th>
+              <th>Nilai Proyek</th>
+              <th>Nilai Portofolio</th>
+            </thead>
+            <tbody>
+              {% for data in data_angka.keterampilan %}
+              <tr>
+                <td>{{ data.mo_siswa.murid_nama }}</td>
+                <td>{{ data.mo_tahun_ajaran }}</td>
+                <td>{{ data.mo_semester }}</td>
+                <td>
+                  <!-- Disabled Backdrop Modal -->
+                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#disablebackdrop_{{ data.mo_penilaian_keterampilan_uuid }}">
+                    {{ data.mo_kompetensi_dasar.guru_nomor_kd }}
+                  </button>
+                  <div class="modal fade" id="disablebackdrop_{{ data.mo_penilaian_keterampilan_uuid }}" tabindex="-1" data-bs-backdrop="false">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span class="badge rounded-pill bg-danger">Kelas {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_kelas }}</span>
+                          <span class="badge rounded-pill bg-warning">Semester {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_semester }}</span>
+                          <span class="badge rounded-pill bg-success">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</span>
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          <br>
+                          <br>
+                          {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Disabled Backdrop Modal-->
+                </td>
+                {% if data.mo_mata_pelajaran_wajib is not None %}
+                  <td>{{ data.mo_mata_pelajaran_wajib }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_mata_pelajaran_jurusan is not None %}
+                  <td>{{ data.mo_mata_pelajaran_jurusan }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                <td>{{ data.mo_penilaian_ke }}</td>
+                {% if data.mo_praktek is not None %}
+                  <td class="text-center">{{ data.mo_praktek }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_produk is not None %}
+                  <td class="text-center">{{ data.mo_produk }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_proyek is not None %}
+                  <td class="text-center">{{ data.mo_proyek }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_portofolio is not None %}
+                  <td class="text-center">{{ data.mo_portofolio }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="bordered-justified-contact_sosial" role="tabpanel" aria-labelledby="contact-tab">
+          <table class="table table-hover datatable" style="font-size: 13px;">
+            <thead>
+              <th>Siswa</th>
+              <th>Tahun Ajaran</th>
+              <th>Semester</th>
+              <th>Kompetensi Dasar</th>
+              <th>Mapel Wajib</th>
+              <th>Mapel Jurusan</th>
+              <th>Penilaian Ke</th>
+              <th>Nilai</th>
+            </thead>
+            <tbody>
+              {% for data in data_angka.sosial %}
+              <tr>
+                <td>{{ data.mo_siswa.murid_nama }}</td>
+                <td>{{ data.mo_tahun_ajaran }}</td>
+                <td>{{ data.mo_semester }}</td>
+                <td>
+                  <!-- Disabled Backdrop Modal -->
+                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#disablebackdrop_{{ data.mo_penilaian_sikap_sosial_uuid }}">
+                    {{ data.mo_kompetensi_dasar.guru_nomor_kd }}
+                  </button>
+                  <div class="modal fade" id="disablebackdrop_{{ data.mo_penilaian_sikap_sosial_uuid }}" tabindex="-1" data-bs-backdrop="false">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span class="badge rounded-pill bg-danger">Kelas {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_kelas }}</span>
+                          <span class="badge rounded-pill bg-warning">Semester {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_semester }}</span>
+                          <span class="badge rounded-pill bg-success">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</span>
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          <br>
+                          <br>
+                          {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Disabled Backdrop Modal-->
+                </td>
+                {% if data.mo_mata_pelajaran_wajib is not None %}
+                  <td>{{ data.mo_mata_pelajaran_wajib }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_mata_pelajaran_jurusan is not None %}
+                  <td>{{ data.mo_mata_pelajaran_jurusan }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                <td>{{ data.mo_penilaian_ke }}</td>
+                {% if data.mo_nilai_P1_TGS is not None %}
+                  <td class="text-center">{{ data.mo_nilai }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="bordered-justified-contact_spiritual" role="tabpanel" aria-labelledby="contact-tab">
+          <table class="table table-hover datatable" style="font-size: 13px;">
+            <thead>
+              <th>Siswa</th>
+              <th>Tahun Ajaran</th>
+              <th>Semester</th>
+              <th>Kompetensi Dasar</th>
+              <th>Mapel Wajib</th>
+              <th>Mapel Jurusan</th>
+              <th>Penilaian Ke</th>
+              <th>Nilai</th>
+            </thead>
+            <tbody>
+              {% for data in data_angka.spiritual %}
+              <tr>
+                <td>{{ data.mo_siswa.murid_nama }}</td>
+                <td>{{ data.mo_tahun_ajaran }}</td>
+                <td>{{ data.mo_semester }}</td>
+                <td>
+                  <!-- Disabled Backdrop Modal -->
+                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#disablebackdrop_{{ data.mo_penilaian_sikap_spiritual_uuid }}">
+                    {{ data.mo_kompetensi_dasar.guru_nomor_kd }}
+                  </button>
+                  <div class="modal fade" id="disablebackdrop_{{ data.mo_penilaian_sikap_spiritual_uuid }}" tabindex="-1" data-bs-backdrop="false">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span class="badge rounded-pill bg-danger">Kelas {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_kelas }}</span>
+                          <span class="badge rounded-pill bg-warning">Semester {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_semester }}</span>
+                          <span class="badge rounded-pill bg-success">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</span>
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          <br>
+                          <br>
+                          {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Disabled Backdrop Modal-->
+                </td>
+                {% if data.mo_mata_pelajaran_wajib is not None %}
+                  <td>{{ data.mo_mata_pelajaran_wajib }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                {% if data.mo_mata_pelajaran_jurusan is not None %}
+                  <td>{{ data.mo_mata_pelajaran_jurusan }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+                <td>{{ data.mo_penilaian_ke }}</td>
+                {% if data.mo_nilai_P1_TGS is not None %}
+                  <td class="text-center">{{ data.mo_nilai }}</td>
+                {% else %}
+                  <td class="text-center">-</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- End Bordered Tabs Justified -->
+    </div>
+  </div>
+
+
+  <div class="card" style="overflow-x: auto;">
+    <div class="card-body">
+      <h1 class="card-title">Ulangan Siswa</h1>
+      <!-- Bordered Tabs Justified -->
+      <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-ulangan" type="button" role="tab" aria-controls="home" aria-selected="true">Ulangan</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-uts" type="button" role="tab" aria-controls="profile" aria-selected="false">UTS</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-uas" type="button" role="tab" aria-controls="contact" aria-selected="false">UAS</button>
+        </li>
+      </ul>
+      <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+        <div class="tab-pane fade show active" id="bordered-justified-ulangan" role="tabpanel" aria-labelledby="home-tab">
+          <table class="table table-hover datatable" style="font-size: 13px;">
+            <thead>
+              <th scope="col">Nama</th>
+              <th scope="col">Status</th>
+              <th scope="col">Tahun Ajaran</th>
+              <th scope="col">Semester</th>
+              <th scope="col">KD</th>
+              <th scope="col">Mapel Wajib</th>
+              <th scope="col">Mapel Jurusan</th>
+              <th scope="col">Ulangan Ke</th>
+              <th scope="col">KKM</th>
+              <th scope="col">Nilai</th>
+              <th scope="col">Ketuntasan</th>
+            </thead>
+            <tbody>
+              {% for data in data_angka.ulangan %}
+              <tr>
+                <td>{{ data.mo_siswa.murid_nama }}</td>
+                <td>
+                  {% if data.mo_status == "Baru" %}
+                    <span class="badge bg-success rounded-pill">{{ data.mo_status }}</span>
+                  {% elif data.mo_status == "Remedial" %}
+                    <span class="badge bg-primary rounded-pill">{{ data.mo_status }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ data.mo_tahun_ajaran }}</td>
+                <td>{{ data.mo_semester }}</td>
+                <td>
+                  <!-- Disabled Backdrop Modal -->
+                  <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#disablebackdrop_{{ data.mo_penilaian_ulangan_uuid }}">
+                    {{ data.mo_kompetensi_dasar.guru_nomor_kd }}
+                  </button>
+                  <div class="modal fade" id="disablebackdrop_{{ data.mo_penilaian_ulangan_uuid }}" tabindex="-1" data-bs-backdrop="false">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">{{ data.mo_kompetensi_dasar.guru_nomor_kd }}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span class="badge rounded-pill bg-danger">Kelas {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_kelas }}</span>
+                          <span class="badge rounded-pill bg-warning">Semester {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_semester }}</span>
+                          <span class="badge rounded-pill bg-success">KD {{ data.mo_kompetensi_dasar.guru_nomor_kd }}</span>
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_wajib }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          {% if data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan is not None %}
+                            <span class="badge rounded-pill bg-dark">KD {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar_mata_pelajaran_jurusan }}</span>
+                          {% else %}
+                            <span></span>
+                          {% endif %}
+                          <br>
+                          <br>
+                          {{ data.mo_kompetensi_dasar.guru_kompetensi_dasar }}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Disabled Backdrop Modal-->
+                </td>
+                {% if data.mo_mata_pelajaran_wajib is not None %}
+                  <td>{{ data.mo_mata_pelajaran_wajib }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_mata_pelajaran_jurusan is not None %}
+                  <td>{{ data.mo_mata_pelajaran_jurusan }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_ulangan_ke is not None %}
+                  <td>{{ data.mo_ulangan_ke }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_kkm is not None %}
+                  <td>{{ data.mo_kkm.mo_kkm }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_nilai is not None %}
+                  <td>{{ data.mo_nilai }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_ketuntasan is not None %}
+                  {% if data.mo_ketuntasan == "Belum Tuntas" %}
+                    <td><span class="badge bg-danger rounded-pill">{{ data.mo_ketuntasan }}</span></td>
+                  {% else %}
+                    <td><span class="badge bg-success rounded-pill">{{ data.mo_ketuntasan }}</span></td>
+                  {% endif %}
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="bordered-justified-uts" role="tabpanel" aria-labelledby="profile-tab">
+          <table class="table table-hover datatable" style="font-size: 13px;">
+            <thead>
+              <th scope="col">Nama</th>
+              <th scope="col">Status</th>
+              <th scope="col">Tahun Ajaran</th>
+              <th scope="col">Semester</th>
+              <th scope="col">Mapel Wajib</th>
+              <th scope="col">Mapel Jurusan</th>
+              <th scope="col">KKM</th>
+              <th scope="col">Nilai</th>
+              <th scope="col">Ketuntasan</th>
+            </thead>
+            <tbody>
+              {% for data in data_angka.uts %}
+              <tr>
+                <td>{{ data.mo_siswa.murid_nama }}</td>
+                <td>
+                  {% if data.mo_status == "Baru" %}
+                    <span class="badge bg-success rounded-pill">{{ data.mo_status }}</span>
+                  {% elif data.mo_status == "Remedial" %}
+                    <span class="badge bg-primary rounded-pill">{{ data.mo_status }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ data.mo_tahun_ajaran }}</td>
+                <td>{{ data.mo_semester }}</td>
+                {% if data.mo_mata_pelajaran_wajib is not None %}
+                  <td>{{ data.mo_mata_pelajaran_wajib }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_mata_pelajaran_jurusan is not None %}
+                  <td>{{ data.mo_mata_pelajaran_jurusan }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_kkm is not None %}
+                  <td>{{ data.mo_kkm.mo_kkm }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_nilai is not None %}
+                  <td>{{ data.mo_nilai }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_ketuntasan is not None %}
+                  {% if data.mo_ketuntasan == "Belum Tuntas" %}
+                    <td><span class="badge bg-danger rounded-pill">{{ data.mo_ketuntasan }}</span></td>
+                  {% else %}
+                    <td><span class="badge bg-success rounded-pill">{{ data.mo_ketuntasan }}</span></td>
+                  {% endif %}
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="bordered-justified-uas" role="tabpanel" aria-labelledby="contact-tab">
+          <table class="table table-hover datatable" style="font-size: 13px;">
+            <thead>
+              <th scope="col">Nama</th>
+              <th scope="col">Status</th>
+              <th scope="col">Tahun Ajaran</th>
+              <th scope="col">Semester</th>
+              <th scope="col">Mapel Wajib</th>
+              <th scope="col">Mapel Jurusan</th>
+              <th scope="col">KKM</th>
+              <th scope="col">Nilai</th>
+              <th scope="col">Ketuntasan</th>
+            </thead>
+            <tbody>
+              {% for data in data_angka.uas %}
+              <tr>
+                <td>{{ data.mo_siswa.murid_nama }}</td>
+                <td>
+                  {% if data.mo_status == "Baru" %}
+                    <span class="badge bg-success rounded-pill">{{ data.mo_status }}</span>
+                  {% elif data.mo_status == "Remedial" %}
+                    <span class="badge bg-primary rounded-pill">{{ data.mo_status }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ data.mo_tahun_ajaran }}</td>
+                <td>{{ data.mo_semester }}</td>
+                {% if data.mo_mata_pelajaran_wajib is not None %}
+                  <td>{{ data.mo_mata_pelajaran_wajib }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_mata_pelajaran_jurusan is not None %}
+                  <td>{{ data.mo_mata_pelajaran_jurusan }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_kkm is not None %}
+                  <td>{{ data.mo_kkm.mo_kkm }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_nilai is not None %}
+                  <td>{{ data.mo_nilai }}</td>
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+                {% if data.mo_ketuntasan is not None %}
+                  {% if data.mo_ketuntasan == "Belum Tuntas" %}
+                    <td><span class="badge bg-danger rounded-pill">{{ data.mo_ketuntasan }}</span></td>
+                  {% else %}
+                    <td><span class="badge bg-success rounded-pill">{{ data.mo_ketuntasan }}</span></td>
+                  {% endif %}
+                {% else %}
+                  <td>-</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- End Bordered Tabs Justified -->
+    </div>
+  </div>
+</main>
+{% endblock sub_content %}

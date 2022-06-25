@@ -1,0 +1,109 @@
+{% extends 'templates_kepsek/dashboard_kepsek.html' %}
+{% load static %}
+{% block title %}Detail {{ info.skl_ekskul }}{% endblock title %}
+{% load widget_tweaks %}
+
+
+{% block sub_content %}
+<main id='main'>
+
+	<div class="pagetitle">
+    <h1>Detail <b>{{ info.skl_ekskul }}</b></h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'monitoring:page_kepsek_performa_kelas_landing'%}">Monitoring</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'monitoring:page_kepsek_performa_ekskul_landing'%}">Ekskul</a></li>
+        <li class="breadcrumb-item">Detail</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+
+   <div class="card">
+     <div class="card-body">
+     <h1 class="card-title">Tabel Nilai</h1>
+
+      <!-- Bordered Tabs Justified -->
+      <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">Tabel Detail Nilai</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Tabel x̄ Nilai</button>
+        </li>
+      </ul>
+      <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+        <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+          <table class="table table-hover datatable">
+           <thead>
+             <th scope="col">Siswa</th>
+             <th scope="col">Kelas</th>
+             <th scope="col">Tahun Ajaran</th>
+             <th scope="col">Semester</th>
+             <th scope="col">Nilai</th>
+           </thead>
+           <tbody>
+            {% for data in nilai_ekskul %}
+             <tr>
+               <td>{{ data.mo_siswa.murid_nama }}</td>
+               <td>{{ data.mo_kelas.skl_k_kelas_nama }}</td>
+               <td>{{ data.mo_tahun_ajaran }}</td>
+               <td>{{ data.mo_semester }}</td>
+               <td>{{ data.mo_nilai }}</td>
+             </tr>
+            {% endfor %}
+           </tbody>
+         </table>
+        </div>
+        <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+          <table class="table table-hover datatable">
+           <thead>
+             <th scope="col">Siswa</th>
+             <th scope="col">Nilai</th>
+           </thead>
+           <tbody>
+            {% for data in nilai_ekskul_mean %}
+             <tr>
+               <td>{{ data.mo_siswa__murid_nama }}</td>
+               <td>{{ data.mo_nilai__avg }}</td>
+             </tr>
+            {% endfor %}
+           </tbody>
+         </table>
+        </div>
+      </div>
+      <!-- End Bordered Tabs Justified -->
+       
+     </div>
+   </div>
+
+   <div class="card">
+     <div class="card-body">
+       <h1 class="card-title">Perolehan Kejuaraan</h1>
+       <p><b>Total Perolehan Juara: <span class="badge bg-danger rounded-pill">{{ total_juara }}</span></b></p>
+       <table class="table table-hover datatable">
+         <thead>
+           <th scope="col">Siswa</th>
+           <th scope="col">Tahun</th>
+           <th scope="col">Tingkat</th>
+           <th scope="col">Pelaksana</th>
+           <th scope="col">Kejuaraan</th>
+           <th scope="col">Juara</th>
+         </thead>
+         <tbody>
+           {% for data in juara %}
+            <tr>
+              <td>{{ data.mo_siswa }}</td>
+              <td>{{ data.mo_tahun }}</td>
+              <td>{{ data.mo_tingkatan }}</td>
+              <td>{{ data.mo_pelaksana }}</td>
+              <td>{{ data.mo_kejuaraan }}</td>
+              <td>{{ data.mo_juara }}</td>
+            </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+     </div>
+   </div>
+</main>
+{% endblock sub_content %}

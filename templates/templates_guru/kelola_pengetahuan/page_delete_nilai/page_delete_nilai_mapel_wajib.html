@@ -1,0 +1,66 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Hapus Nilai {{ guru.guru_mata_pelajaran_wajib }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Hapus Nilai Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_wajib }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Nilai</a></li>
+	      <li class="breadcrumb-item active">Hapus Nilai</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<form method="POST">
+				{% csrf_token %}
+				<table class="table table-hover">
+					<thead>
+						<th scope="col">Keterangan</th>
+						<th scope="col">Data</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Siswa</td>
+							<td>: {{ object.mo_siswa }}</td>
+						</tr>
+						<tr>
+							<td>Kelas</td>
+							<td>: {{ object.mo_kelas }}</td>
+						</tr>
+						<tr>
+							<td>Tahun Ajaran</td>
+							<td>: {{ object.mo_tahun_ajaran }}</td>
+						</tr>
+						<tr>
+							<td>KD</td>
+							<td>: {{ object.mo_kompetensi_dasar }}</td>
+						</tr>
+						<tr>
+							<td>Penilaian Ke</td>
+							<td>: {{ object.mo_penilaian_ke }}</td>
+						</tr>
+						<tr>
+							<td>Nilai P1 TGS</td>
+							<td>: {{ object.mo_nilai_P1_TGS }}</td>
+						</tr>
+						<tr>
+							<td>Nilai P2 TLS</td>
+							<td>: {{ object.mo_nilai_P2_TLS }}</td>
+						</tr>
+						<tr>
+							<td>Nilai P3 TLS</td>
+							<td>: {{ object.mo_nilai_P3_TLS }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<button type="submit" class="btn btn-danger">Hapus</button>
+				<a class="btn btn-primary" href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Batal</a>
+			</form>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

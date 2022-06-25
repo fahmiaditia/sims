@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard Bimbingan Konseling{% endblock title %}
+
+
+{% block dashboard %}
+<!-- DASHBOARD  -->
+  <!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <span class="d-none d-lg-block">SIMS</span>
+        <small class="d-none d-lg-block" style="margin-left: 10px;">Bimbingan Konseling</small>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+</header><!-- End Header -->
+
+
+<!-- Sidebar --> 
+<aside id="sidebar" class="sidebar">
+
+<ul class="sidebar-nav" id="sidebar-nav">
+
+  <!-- <li class="nav-item">
+    <a class="nav-link " href="{% url 'monitoring:page_bk_dashboard' %}">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+    </a>
+  </li> -->
+
+  <li class="nav-heading">Siswa</li>  
+    
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'monitoring:page_bk_nilai_siswa_landing' %}">
+        <i class="bi bi-people"></i>
+        <span>Nilai Siswa</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'monitoring:page_bk_performa_kelas_landing' %}">
+        <i class="bi bi-speedometer2"></i>
+        <span>Performa Kelas</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'monitoring:page_bk_catatan' %}">
+        <i class="bi bi-exclamation-circle"></i>
+        <span>Catatan Siswa</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+
+
+
+
+
+
+  <li class="nav-heading">Personal</li>  
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'monitoring:page_bk_profil' %}">
+      <i class="bi bi-person"></i>
+      <span>Profil</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'logout' %}">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Logout</span>
+    </a>
+  </li><!-- End Login Page Nav -->
+</ul>
+
+</aside>
+<!-- End Sidebar -->
+
+<!-- END DASHBOARD -->
+{% endblock dashboard %}
+
+{% block content %}
+	{% block sub_content %}
+	{% endblock sub_content %}
+{% endblock content %}

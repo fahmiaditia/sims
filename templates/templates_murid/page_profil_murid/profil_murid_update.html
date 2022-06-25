@@ -1,0 +1,37 @@
+{% extends 'templates_murid/dashboard_murid.html' %}
+{% load static %}
+{% block title %} Update
+{% endblock title %}
+
+{% block sub_content %}
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_murid_nilai'%}">Monitoring</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_murid_profil'%}">Profil</a></li>
+          <li class="breadcrumb-item">Update</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Ubah Profil</h1>
+        <!-- Multi Columns Form -->
+              <form class="row g-3" method="POST">
+                {%  csrf_token %}
+                <div class="col-md-12">
+                  <label for="inputName5" class="form-label">Nama Lengkap</label>
+                  {{ form.murid_nama }}
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form><!-- End Multi Columns Form -->
+      </div>
+    </div>
+
+  </main><!-- End #main -->
+{% endblock sub_content %}

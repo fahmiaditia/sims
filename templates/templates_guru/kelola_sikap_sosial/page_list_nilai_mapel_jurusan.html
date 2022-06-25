@@ -1,0 +1,88 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}List Nilai Sikap Sosial {{ guru.guru_mata_pelajaran_jurusan }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Nilai Sikap Sosial Mata Pelajaran <b>{{ guru.guru_mata_pelajaran_jurusan }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item active">Nilai</li>
+	    </ol>
+	</nav>
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Filter Nilai</h1>
+			<form>
+			<div class="row">
+				<div class="col-md-4">
+	          {{ nilai.form.mo_siswa.label_tag }}
+	          {% render_field nilai.form.mo_siswa class='form-control' %}
+	        </div>
+	        <div class="col-md-4">
+	          {{ nilai.form.mo_kompetensi_dasar.label_tag }}
+	          {% render_field nilai.form.mo_kompetensi_dasar class='form-control' %}
+	        </div>
+	        <div class="col-md-4">
+	          {{ nilai.form.mo_kelas.label_tag }}
+	          {% render_field nilai.form.mo_kelas class='form-control' %}
+	        </div>
+	        <div class="col-md-4">
+	          {{ nilai.form.mo_semester.label_tag }}
+	          {% render_field nilai.form.mo_semester class='form-control' %}
+	        </div>
+	        <div class="col-md-4">
+	          {{ nilai.form.mo_penilaian_ke.label_tag }}
+	          {% render_field nilai.form.mo_penilaian_ke class='form-control' %}
+	        </div>
+	        <div class="text-center">
+	          <button type="submit" class="btn btn-primary">Cari</button>
+	        </div>
+        </div>
+			</form>
+		</div>
+	</div>
+	<div class="card" style="font-size: 12px;">
+		<div class="card-body" style="overflow-x: auto;">
+			<h1 class="card-title">List Nilai</h1>
+			<!-- Table with stripped rows -->
+			<a href="{% url 'monitoring:page_guru_input_sikap_sosial_jurusan' %}" class="btn btn-primary">Tambah Nilai</a>
+			  <table class="table table-hover datatable">
+			    <thead>
+			      <tr>
+			        <th scope="col">Siswa</th>
+			        <th scope="col">Kelas</th>
+			        <th scope="col">Tahun Ajaran</th>
+			        <th scope="col">Semester</th>
+			        <th scope="col">KD</th>
+			        <th scope="col">Penilaian Ke</th>
+			        <th scope="col">Nilai</th>
+			        <th scope="col">Edit</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			    {% for nilai in nilai.qs %}
+			      <tr>
+			        <th scope="row">{{ nilai.mo_siswa }}</th>
+			        <td>{{ nilai.mo_kelas }}</td>
+			        <td>{{ nilai.mo_tahun_ajaran }}</td>
+			        <td>{{ nilai.mo_semester }}</td>
+			        <td>{{ nilai.mo_kompetensi_dasar.guru_nomor_kd }}</td>
+			        <td>{{ nilai.mo_penilaian_ke }}</td>
+			        <td>{{ nilai.mo_nilai }}</td>
+			        <td>
+			        	<a href="{% url 'monitoring:page_guru_update_sikap_sosial_jurusan' nilai.pk %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+			        	<a href="{% url 'monitoring:page_guru_delete_sikap_sosial_jurusan' nilai.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+			        </td>
+			      </tr>
+			    {% endfor %}
+			    </tbody>
+			  </table>
+			  <!-- End Table with stripped rows -->
+		</div>
+	</div>
+	  
+</main>
+{% endblock sub_content %}

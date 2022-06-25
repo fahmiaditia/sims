@@ -1,0 +1,2073 @@
+{% extends 'templates_guru/dashboard_guru.html' %} {% load static %} 
+{% block title %}Perfoma Kelas{% endblock title %} 
+{% block sub_content %}
+
+<main id="main">
+    <div class="pagetitle">
+        <h1>Perfoma Kelas <b>{{ kelas_page.skl_k_kelas_nama }}</b></h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib'%}">Monitoring</a>
+                </li>
+                <li class="breadcrumb-item">Performa Kelas</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <!-- GRAFIK WAJIB -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                Mata Pelajaran {{ guru.guru_mata_pelajaran_wajib }}
+            </h5>
+
+            <!-- Bordered Tabs Justified -->
+            <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-pengetahuan_wajib" type="button" role="tab"
+                        aria-controls="home" aria-selected="true">
+                        Pengetahuan
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-keterampilan_wajib" type="button" role="tab"
+                        aria-controls="profile" aria-selected="false">
+                        Keterampilan
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-sosial_wajib" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        Sosial
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-spiritual_wajib" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        Spiritual
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-ulangan_wajib" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        Ulangan
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-uts_wajib" type="button" role="tab" aria-controls="contact"
+                        aria-selected="false">
+                        UTS
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-uas_wajib" type="button" role="tab" aria-controls="contact"
+                        aria-selected="false">
+                        UAS
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+                <div class="tab-pane fade show active" id="bordered-justified-pengetahuan_wajib" role="tabpanel"
+                    aria-labelledby="home-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_pengetahuan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_wajib_10 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_pengetahuan_10"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_wajib_10["kelas_10"]["pengetahuan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_wajib_10["kelas_10"][
+                                                            "pengetahuan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_pengetahuan_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_pengetahuan_11"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_11["kelas_11"]["pengetahuan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_11["kelas_11"]["pengetahuan"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_pengetahuan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_pengetahuan_12"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_12["kelas_12"]["pengetahuan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_12["kelas_12"]["pengetahuan"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Nilai P1 TGS</th>
+                                <th>x̄ Nilai P2 TLS</th>
+                                <th>x̄ Nilai P3 TLS</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_pengetahuan_wajib %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.mo_nilai_P1_TGS__avg | floatformat }}</td>
+                                    <td>{{ data.mo_nilai_P2_TLS__avg | floatformat }}</td>
+                                    <td>{{ data.mo_nilai_P3_TLS__avg | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-keterampilan_wajib" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_keterampilan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_keterampilan_wajib_10 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_keterampilan_10"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_keterampilan_wajib_10["kelas_10"][
+                                                    "keterampilan"
+                                                    ]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_keterampilan_wajib_10["kelas_10"][
+                                                            "keterampilan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_keterampilan_wajib_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_keterampilan_wajib_11 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector(
+                                            "#doughnutChart_keterampilan_wajib_11"
+                                        ),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_keterampilan_wajib_11["kelas_11"][
+                                                    "keterampilan"
+                                                    ]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_keterampilan_wajib_11["kelas_11"][
+                                                            "keterampilan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_keterampilan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_keterampilan_12 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_keterampilan_12"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_keterampilan_12["kelas_12"][
+                                                    "keterampilan"
+                                                    ]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_keterampilan_12["kelas_12"][
+                                                            "keterampilan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Praktek</th>
+                                <th>x̄ Produk</th>
+                                <th>x̄ Proyek</th>
+                                <th>x̄ Portofolio</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_keterampilan_wajib %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.mo_praktek__avg | floatformat }}</td>
+                                    <td>{{ data.mo_produk__avg | floatformat }}</td>
+                                    <td>{{ data.mo_proyek__avg | floatformat }}</td>
+                                    <td>{{ data.mo_portofolio__avg | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-sosial_wajib" role="tabpanel"
+                    aria-labelledby="contact-tab">
+                    <!-- Bar Chart -->
+                    <div class="row">
+                        <canvas id="barChart_sosial_wajib" style="max-height: 400px"></canvas>
+                        <script>
+                            var data_grafik_sosial_wajib = JSON.parse(
+                                "{{ data_grafik_huruf | escapejs }}"
+                            );
+                            document.addEventListener("DOMContentLoaded", () => {
+                                new Chart(document.querySelector("#barChart_sosial_wajib"), {
+                                    type: "bar",
+                                    data: {
+                                        labels: data_grafik_sosial_wajib["sosial"]["label_kelas"],
+                                        datasets: [
+                                            {
+                                                label: "Sangat Baik",
+                                                data: data_grafik_sosial_wajib["sosial"]["SB"],
+                                                backgroundColor: ["rgba(3, 177, 252, 0.5)"],
+                                                borderColor: ["rgb(3, 107, 252)"],
+                                                borderWidth: 1,
+                                            },
+                                            {
+                                                label: "Baik",
+                                                data: data_grafik_sosial_wajib["sosial"]["B"],
+                                                backgroundColor: ["rgba(3, 252, 107, 0.5)"],
+                                                borderColor: ["rgb(8, 158, 71)"],
+                                                borderWidth: 1,
+                                            },
+                                            {
+                                                label: "Cukup",
+                                                data: data_grafik_sosial_wajib["sosial"]["C"],
+                                                backgroundColor: ["rgba(252, 162, 25, 0.5)"],
+                                                borderColor: ["rgb(255, 111, 0)"],
+                                                borderWidth: 1,
+                                            },
+                                            {
+                                                label: "Kurang",
+                                                data: data_grafik_sosial_wajib["sosial"]["K"],
+                                                backgroundColor: ["rgba(255, 64, 64, 0.5)"],
+                                                borderColor: ["rgb(247, 7, 7)"],
+                                                borderWidth: 1,
+                                            },
+                                        ],
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                            },
+                                        },
+                                    },
+                                });
+                            });
+                        </script>
+                    </div>
+                    <!-- End Bar CHart -->
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>Σ Sangat Baik</th>
+                                <th>Σ Baik</th>
+                                <th>Σ Cukup</th>
+                                <th>Σ Kurang</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_sikap_sosial_wajib %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.uuid %}">{{ data.kelas }}</a>
+                                    </td>
+                                    <td>{{ data.SB }}</td>
+                                    <td>{{ data.B }}</td>
+                                    <td>{{ data.C }}</td>
+                                    <td>{{ data.K }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-spiritual_wajib" role="tabpanel"
+                    aria-labelledby="contact-tab">
+                    <div class="row">
+                        <canvas id="barChart_spiritual" style="max-height: 400px"></canvas>
+                        <script>
+                            var data_grafik_spiritual_wajib = JSON.parse(
+                                "{{ data_grafik_huruf | escapejs }}"
+                            );
+                            document.addEventListener("DOMContentLoaded", () => {
+                                new Chart(document.querySelector("#barChart_spiritual"), {
+                                    type: "bar",
+                                    data: {
+                                        labels:
+                                            data_grafik_spiritual_wajib["spiritual"]["label_kelas"],
+                                        datasets: [
+                                            {
+                                                label: "Sangat Baik",
+                                                data: data_grafik_spiritual_wajib["spiritual"]["SB"],
+                                                backgroundColor: ["rgba(3, 177, 252, 0.5)"],
+                                                borderColor: ["rgb(3, 107, 252)"],
+                                                borderWidth: 1,
+                                            },
+                                            {
+                                                label: "Baik",
+                                                data: data_grafik_spiritual_wajib["spiritual"]["B"],
+                                                backgroundColor: ["rgba(3, 252, 107, 0.5)"],
+                                                borderColor: ["rgb(8, 158, 71)"],
+                                                borderWidth: 1,
+                                            },
+                                            {
+                                                label: "Cukup",
+                                                data: data_grafik_spiritual_wajib["spiritual"]["C"],
+                                                backgroundColor: ["rgba(252, 162, 25, 0.5)"],
+                                                borderColor: ["rgb(255, 111, 0)"],
+                                                borderWidth: 1,
+                                            },
+                                            {
+                                                label: "Kurang",
+                                                data: data_grafik_spiritual_wajib["spiritual"]["K"],
+                                                backgroundColor: ["rgba(255, 64, 64, 0.5)"],
+                                                borderColor: ["rgb(247, 7, 7)"],
+                                                borderWidth: 1,
+                                            },
+                                        ],
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                            },
+                                        },
+                                    },
+                                });
+                            });
+                        </script>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>Σ Sangat Baik</th>
+                                <th>Σ Baik</th>
+                                <th>Σ Cukup</th>
+                                <th>Σ Kurang</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_sikap_spiritual_wajib %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.uuid %}">{{ data.kelas }}</a>
+                                    </td>
+                                    <td>{{ data.SB }}</td>
+                                    <td>{{ data.B }}</td>
+                                    <td>{{ data.C }}</td>
+                                    <td>{{ data.K }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-ulangan_wajib" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_ulangan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_ulangan_wajib_10 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_ulangan_10"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_ulangan_wajib_10["kelas_10"]["ulangan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_ulangan_wajib_10["kelas_10"][
+                                                            "ulangan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_ulangan_wajib_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_ulangan_wajib_11 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_ulangan_wajib_11"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_ulangan_wajib_11["kelas_11"]["ulangan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_ulangan_wajib_11["kelas_11"][
+                                                            "ulangan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_ulangan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_ulangan_12 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_ulangan_12"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_ulangan_12["kelas_12"]["ulangan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_ulangan_12["kelas_12"]["ulangan"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Nilai</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_ulangan_wajib %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.dominasi | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-uts_wajib" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uts_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uts_wajib_10 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector("#doughnutChart_uts_10"), {
+                                        type: "doughnut",
+                                        data: {
+                                            labels:
+                                                data_grafik_uts_wajib_10["kelas_10"]["uts"][
+                                                "label_kelas"
+                                                ],
+                                            datasets: [
+                                                {
+                                                    label: "My First Dataset",
+                                                    data: data_grafik_uts_wajib_10["kelas_10"]["uts"][
+                                                        "data"
+                                                    ],
+                                                    backgroundColor: [
+                                                        "rgb(255, 99, 132)",
+                                                        "rgb(54, 162, 235)",
+                                                        "rgb(255, 205, 86)",
+                                                        "rgb(177, 235, 52)",
+                                                        "rgb(52, 235, 150)",
+                                                        "rgb(174, 93, 240)",
+                                                        "rgb(240, 93, 215)",
+                                                        "rgb(240, 179, 93)",
+                                                        "rgb(176, 94, 88)",
+                                                    ],
+                                                    hoverOffset: 4,
+                                                },
+                                            ],
+                                        },
+                                    });
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uts_wajib_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uts_wajib_11 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uts_wajib_11"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uts_wajib_11["kelas_11"]["uts"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uts_wajib_11["kelas_11"]["uts"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uts_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uts_12 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector("#doughnutChart_uts_12"), {
+                                        type: "doughnut",
+                                        data: {
+                                            labels:
+                                                data_grafik_uts_12["kelas_12"]["uts"]["label_kelas"],
+                                            datasets: [
+                                                {
+                                                    label: "My First Dataset",
+                                                    data: data_grafik_uts_12["kelas_12"]["uts"]["data"],
+                                                    backgroundColor: [
+                                                        "rgb(255, 99, 132)",
+                                                        "rgb(54, 162, 235)",
+                                                        "rgb(255, 205, 86)",
+                                                        "rgb(177, 235, 52)",
+                                                        "rgb(52, 235, 150)",
+                                                        "rgb(174, 93, 240)",
+                                                        "rgb(240, 93, 215)",
+                                                        "rgb(240, 179, 93)",
+                                                        "rgb(176, 94, 88)",
+                                                    ],
+                                                    hoverOffset: 4,
+                                                },
+                                            ],
+                                        },
+                                    });
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Nilai</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_uts_wajib %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.dominasi | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-uas_wajib" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uas_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uas_wajib_10 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector("#doughnutChart_uas_10"), {
+                                        type: "doughnut",
+                                        data: {
+                                            labels:
+                                                data_grafik_uas_wajib_10["kelas_10"]["uas"][
+                                                "label_kelas"
+                                                ],
+                                            datasets: [
+                                                {
+                                                    label: "My First Dataset",
+                                                    data: data_grafik_uas_wajib_10["kelas_10"]["uas"][
+                                                        "data"
+                                                    ],
+                                                    backgroundColor: [
+                                                        "rgb(255, 99, 132)",
+                                                        "rgb(54, 162, 235)",
+                                                        "rgb(255, 205, 86)",
+                                                        "rgb(177, 235, 52)",
+                                                        "rgb(52, 235, 150)",
+                                                        "rgb(174, 93, 240)",
+                                                        "rgb(240, 93, 215)",
+                                                        "rgb(240, 179, 93)",
+                                                        "rgb(176, 94, 88)",
+                                                    ],
+                                                    hoverOffset: 4,
+                                                },
+                                            ],
+                                        },
+                                    });
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uas_wajib_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uas_wajib_11 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uas_wajib_11"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uas_wajib_11["kelas_11"]["uas"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uas_wajib_11["kelas_11"]["uas"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uas_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uas_wajib_12 = JSON.parse(
+                                    "{{ data_grafik | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector("#doughnutChart_uas_12"), {
+                                        type: "doughnut",
+                                        data: {
+                                            labels:
+                                                data_grafik_uas_wajib_12["kelas_12"]["uas"][
+                                                "label_kelas"
+                                                ],
+                                            datasets: [
+                                                {
+                                                    label: "My First Dataset",
+                                                    data: data_grafik_uas_wajib_12["kelas_12"]["uas"][
+                                                        "data"
+                                                    ],
+                                                    backgroundColor: [
+                                                        "rgb(255, 99, 132)",
+                                                        "rgb(54, 162, 235)",
+                                                        "rgb(255, 205, 86)",
+                                                        "rgb(177, 235, 52)",
+                                                        "rgb(52, 235, 150)",
+                                                        "rgb(174, 93, 240)",
+                                                        "rgb(240, 93, 215)",
+                                                        "rgb(240, 179, 93)",
+                                                        "rgb(176, 94, 88)",
+                                                    ],
+                                                    hoverOffset: 4,
+                                                },
+                                            ],
+                                        },
+                                    });
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Nilai</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_uas_wajib %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.dominasi | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- End Bordered Tabs Justified -->
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                Mata Pelajaran {{ guru.guru_mata_pelajaran_jurusan }}
+            </h5>
+
+            <!-- Bordered Tabs Justified -->
+            <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-pengetahuan_jurusan" type="button" role="tab"
+                        aria-controls="home" aria-selected="true">
+                        Pengetahuan
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-keterampilan_jurusan" type="button" role="tab"
+                        aria-controls="profile" aria-selected="false">
+                        Keterampilan
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-sosial_jurusan" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        Sosial
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-spiritual_jurusan" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        Spiritual
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-ulangan_jurusan" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        Ulangan
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-uts_jurusan" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        UTS
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-uas_jurusan" type="button" role="tab"
+                        aria-controls="contact" aria-selected="false">
+                        UAS
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+                <div class="tab-pane fade show active" id="bordered-justified-pengetahuan_jurusan" role="tabpanel"
+                    aria-labelledby="home-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_pengetahuan_jurusan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_jurusan_10 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector(
+                                            "#doughnutChart_pengetahuan_jurusan_10"
+                                        ),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_jurusan_10["kelas_10"]["pengetahuan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_jurusan_10["kelas_10"][
+                                                            "pengetahuan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11ppp</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_pengetahuan_jurusan_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_jurusan_11 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector(
+                                            "#doughnutChart_pengetahuan_jurusan_11"
+                                        ),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_jurusan_11["kelas_11"]["pengetahuan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_jurusan_11["kelas_11"][
+                                                            "pengetahuan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_pengetahuan_jurusan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_jurusan_12 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector(
+                                            "#doughnutChart_pengetahuan_jurusan_12"
+                                        ),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_jurusan_12["kelas_12"]["pengetahuan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_jurusan_12["kelas_12"][
+                                                            "pengetahuan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <table class="table" style="font-size: 14px">
+                        <thead>
+                            <th>Kelas</th>
+                            <th>x̄ Nilai P1 TGS</th>
+                            <th>x̄ Nilai P2 TLS</th>
+                            <th>x̄ Nilai P3 TLS</th>
+                        </thead>
+                        <tbody>
+                            {% for data in nilai_pengetahuan_jurusan %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'monitoring:page_guru_performa_kelas_jurusan_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                </td>
+                                <td>{{ data.mo_nilai_P1_TGS__avg | floatformat }}</td>
+                                <td>{{ data.mo_nilai_P2_TLS__avg | floatformat }}</td>
+                                <td>{{ data.mo_nilai_P3_TLS__avg | floatformat }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="bordered-justified-keterampilan_jurusan" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_keterampilan_jurusan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_keterampilan_jurusan_10 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector(
+                                            "#doughnutChart_keterampilan_jurusan_10"
+                                        ),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_keterampilan_jurusan_10["kelas_10"][
+                                                    "keterampilan"
+                                                    ]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_keterampilan_jurusan_10[
+                                                            "kelas_10"
+                                                        ]["keterampilan"]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_keterampilan_jurusan_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_keterampilan_jurusan_11 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector(
+                                            "#doughnutChart_keterampilan_jurusan_11"
+                                        ),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_keterampilan_jurusan_11["kelas_11"][
+                                                    "keterampilan"
+                                                    ]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_keterampilan_jurusan_11[
+                                                            "kelas_11"
+                                                        ]["keterampilan"]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_keterampilan_jurusan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_keterampilan_jurusan_12 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector(
+                                            "#doughnutChart_keterampilan_jurusan_12"
+                                        ),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_keterampilan_jurusan_12["kelas_12"][
+                                                    "keterampilan"
+                                                    ]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_keterampilan_jurusan_12[
+                                                            "kelas_12"
+                                                        ]["keterampilan"]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <table class="table" style="font-size: 14px">
+                        <thead>
+                            <th>Kelas</th>
+                            <th>x̄ Praktek</th>
+                            <th>x̄ Produk</th>
+                            <th>x̄ Proyek</th>
+                            <th>x̄ Portofolio</th>
+                        </thead>
+                        <tbody>
+                            {% for data in nilai_keterampilan_jurusan %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'monitoring:page_guru_performa_kelas_jurusan_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                </td>
+                                <td>{{ data.mo_praktek__avg | floatformat }}</td>
+                                <td>{{ data.mo_produk__avg | floatformat }}</td>
+                                <td>{{ data.mo_proyek__avg | floatformat }}</td>
+                                <td>{{ data.mo_portofolio__avg | floatformat }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="bordered-justified-sosial_jurusan" role="tabpanel"
+                    aria-labelledby="contact-tab">
+                    <!-- Bar Chart -->
+                    <canvas id="barChart_sosial_jurusan" style="max-height: 400px"></canvas>
+                    <script>
+                        var data_grafik_sosial_jurusan = JSON.parse(
+                            "{{ data_grafik_huruf_jurusan | escapejs }}"
+                        );
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector("#barChart_sosial_jurusan"), {
+                                type: "bar",
+                                data: {
+                                    labels: data_grafik_sosial_jurusan["sosial"]["label_kelas"],
+                                    datasets: [
+                                        {
+                                            label: "Sangat Baik",
+                                            data: data_grafik_sosial_jurusan["sosial"]["SB"],
+                                            backgroundColor: ["rgba(3, 177, 252, 0.5)"],
+                                            borderColor: ["rgb(3, 107, 252)"],
+                                            borderWidth: 1,
+                                        },
+                                        {
+                                            label: "Baik",
+                                            data: data_grafik_sosial_jurusan["sosial"]["B"],
+                                            backgroundColor: ["rgba(3, 252, 107, 0.5)"],
+                                            borderColor: ["rgb(8, 158, 71)"],
+                                            borderWidth: 1,
+                                        },
+                                        {
+                                            label: "Cukup",
+                                            data: data_grafik_sosial_jurusan["sosial"]["C"],
+                                            backgroundColor: ["rgba(252, 162, 25, 0.5)"],
+                                            borderColor: ["rgb(255, 111, 0)"],
+                                            borderWidth: 1,
+                                        },
+                                        {
+                                            label: "Kurang",
+                                            data: data_grafik_sosial_jurusan["sosial"]["K"],
+                                            backgroundColor: ["rgba(255, 64, 64, 0.5)"],
+                                            borderColor: ["rgb(247, 7, 7)"],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                        },
+                                    },
+                                },
+                            });
+                        });
+                    </script>
+                    <!-- End Bar CHart -->
+                    <table class="table" style="font-size: 14px">
+                        <thead>
+                            <th>Kelas</th>
+                            <th>Σ Sangat Baik</th>
+                            <th>Σ Baik</th>
+                            <th>Σ Cukup</th>
+                            <th>Σ Kurang</th>
+                        </thead>
+                        <tbody>
+                            {% for data in nilai_sikap_sosial_jurusan %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.uuid %}">{{ data.kelas }}</a>
+                                </td>
+                                <td>{{ data.SB }}</td>
+                                <td>{{ data.B }}</td>
+                                <td>{{ data.C }}</td>
+                                <td>{{ data.K }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="bordered-justified-spiritual_jurusan" role="tabpanel"
+                    aria-labelledby="contact-tab">
+                    <canvas id="barChart_spiritual_jurusan" style="max-height: 400px"></canvas>
+                    <script>
+                        var data_grafik_spiritual_jurusan = JSON.parse(
+                            "{{ data_grafik_huruf_jurusan | escapejs }}"
+                        );
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector("#barChart_spiritual_jurusan"), {
+                                type: "bar",
+                                data: {
+                                    labels:
+                                        data_grafik_spiritual_jurusan["spiritual"]["label_kelas"],
+                                    datasets: [
+                                        {
+                                            label: "Sangat Baik",
+                                            data: data_grafik_spiritual_jurusan["spiritual"]["SB"],
+                                            backgroundColor: ["rgba(3, 177, 252, 0.5)"],
+                                            borderColor: ["rgb(3, 107, 252)"],
+                                            borderWidth: 1,
+                                        },
+                                        {
+                                            label: "Baik",
+                                            data: data_grafik_spiritual_jurusan["spiritual"]["B"],
+                                            backgroundColor: ["rgba(3, 252, 107, 0.5)"],
+                                            borderColor: ["rgb(8, 158, 71)"],
+                                            borderWidth: 1,
+                                        },
+                                        {
+                                            label: "Cukup",
+                                            data: data_grafik_spiritual_jurusan["spiritual"]["C"],
+                                            backgroundColor: ["rgba(252, 162, 25, 0.5)"],
+                                            borderColor: ["rgb(255, 111, 0)"],
+                                            borderWidth: 1,
+                                        },
+                                        {
+                                            label: "Kurang",
+                                            data: data_grafik_spiritual_jurusan["spiritual"]["K"],
+                                            backgroundColor: ["rgba(255, 64, 64, 0.5)"],
+                                            borderColor: ["rgb(247, 7, 7)"],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                        },
+                                    },
+                                },
+                            });
+                        });
+                    </script>
+                    <table class="table" style="font-size: 14px">
+                        <thead>
+                            <th>Kelas</th>
+                            <th>Σ Sangat Baik</th>
+                            <th>Σ Baik</th>
+                            <th>Σ Cukup</th>
+                            <th>Σ Kurang</th>
+                        </thead>
+                        <tbody>
+                            {% for data in nilai_sikap_spiritual_jurusan %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'monitoring:page_guru_performa_kelas_wajib_detail' data.uuid %}">{{ data.kelas }}</a>
+                                </td>
+                                <td>{{ data.SB }}</td>
+                                <td>{{ data.B }}</td>
+                                <td>{{ data.C }}</td>
+                                <td>{{ data.K }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="bordered-justified-ulangan_jurusan" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_ulangan_jurusan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_ulangan_jurusan_10 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_ulangan_jurusan_10"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_ulangan_jurusan_10["kelas_10"]["ulangan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_ulangan_jurusan_10["kelas_10"][
+                                                            "ulangan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_ulangan_jurusan_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_ulangan_jurusan_11 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_ulangan_jurusan_11"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_ulangan_jurusan_11["kelas_11"]["ulangan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_ulangan_jurusan_11["kelas_11"][
+                                                            "ulangan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_ulangan_jurusan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_ulangan_jurusan_12 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_ulangan_jurusan_12"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_ulangan_12["kelas_12"]["ulangan"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_ulangan_jurusan_12["kelas_12"][
+                                                            "ulangan"
+                                                        ]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Nilai</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_ulangan_jurusan %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_jurusan_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.dominasi | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-uts_jurusan" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uts_jurusan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uts_jurusan_10 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uts_jurusan_10"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uts_jurusan_10["kelas_10"]["uts"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uts_jurusan_10["kelas_10"]["uts"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uts_jurusan_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uts_jurusan_11 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uts_jurusan_11"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uts_jurusan_11["kelas_11"]["uts"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uts_jurusan_11["kelas_11"]["uts"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uts_jurusan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uts_12 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uts_jurusan_12"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uts_12["kelas_12"]["uts"]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uts_12["kelas_12"]["uts"]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Nilai</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_uts_jurusan %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_jurusan_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.dominasi | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bordered-justified-uas_jurusan" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 10</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uas_jurusan_10" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uas_jurusan_10 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uas_jurusan_10"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uas_jurusan_10["kelas_10"]["uas"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uas_jurusan_10["kelas_10"]["uas"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 11</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uas_jurusan_11" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uas_jurusan_11 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uas_jurusan_11"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uas_jurusan_11["kelas_11"]["uas"][
+                                                    "label_kelas"
+                                                    ],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uas_jurusan_11["kelas_11"]["uas"][
+                                                            "data"
+                                                        ],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <small><b>Dominasi Kelas 12</b></small>
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart_uas_jurusan_12" style="max-height: 400px"></canvas>
+                            <script>
+                                var data_grafik_uas_12 = JSON.parse(
+                                    "{{ data_grafik_jurusan | escapejs }}"
+                                );
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(
+                                        document.querySelector("#doughnutChart_uas_jurusan_12"),
+                                        {
+                                            type: "doughnut",
+                                            data: {
+                                                labels:
+                                                    data_grafik_uas_12["kelas_12"]["uas"]["label_kelas"],
+                                                datasets: [
+                                                    {
+                                                        label: "My First Dataset",
+                                                        data: data_grafik_uas_12["kelas_12"]["uas"]["data"],
+                                                        backgroundColor: [
+                                                            "rgb(255, 99, 132)",
+                                                            "rgb(54, 162, 235)",
+                                                            "rgb(255, 205, 86)",
+                                                            "rgb(177, 235, 52)",
+                                                            "rgb(52, 235, 150)",
+                                                            "rgb(174, 93, 240)",
+                                                            "rgb(240, 93, 215)",
+                                                            "rgb(240, 179, 93)",
+                                                            "rgb(176, 94, 88)",
+                                                        ],
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            },
+                                        }
+                                    );
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" style="font-size: 14px">
+                            <thead>
+                                <th>Kelas</th>
+                                <th>x̄ Nilai</th>
+                            </thead>
+                            <tbody>
+                                {% for data in nilai_uas_jurusan %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'monitoring:page_guru_performa_kelas_jurusan_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                                    </td>
+                                    <td>{{ data.dominasi | floatformat }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- End Bordered Tabs Justified -->
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var data_grafik = JSON.parse("{{ data_grafik | escapejs }}");
+        var data_grafik_huruf = JSON.parse("{{ data_grafik_huruf | escapejs }}");
+        var data_grafik_jurusan = JSON.parse(
+            "{{ data_grafik_jurusan | escapejs }}"
+        );
+        var data_grafik_huruf_jurusan = JSON.parse(
+            "{{ data_grafik_huruf_jurusan | escapejs }}"
+        );
+
+        console.log("data_grafik", data_grafik);
+        console.log("data_grafik_jurusan", data_grafik_jurusan);
+        console.log("data_grafik_huruf", data_grafik_huruf);
+        console.log("data_grafik_huruf_jurusan", data_grafik_huruf_jurusan);
+    </script>
+</main>
+
+{% endblock sub_content %}

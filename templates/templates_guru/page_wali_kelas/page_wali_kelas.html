@@ -1,0 +1,543 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% block title %}Wali Kelas {{ guru.guru_wali_kelas }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<div class="pagetitle">
+      <h1>Wali Kelas <b>{{ guru.guru_wali_kelas }}</b></h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib'%}">Monitoring</a></li>
+          <li class="breadcrumb-item">Wali Kelas</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="card" style="overflow-x: auto;">
+    	<div class="card-body">
+    		<h1 class="card-title">x̄ Nilai Siswa</h1>
+    		<!-- Bordered Tabs Justified -->
+			<ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+			  <li class="nav-item flex-fill" role="presentation">
+			    <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-Pengetahuan" type="button" role="tab" aria-controls="home" aria-selected="true">Pengetahuan</button>
+			  </li>
+			  <li class="nav-item flex-fill" role="presentation">
+			    <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-Keterampilan" type="button" role="tab" aria-controls="profile" aria-selected="false">Keterampilan</button>
+			  </li>
+			  <li class="nav-item flex-fill" role="presentation">
+			    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-Sosial" type="button" role="tab" aria-controls="contact" aria-selected="false">Sosial</button>
+			  </li>
+			  <li class="nav-item flex-fill" role="presentation">
+			    <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-Spiritual" type="button" role="tab" aria-controls="contact" aria-selected="false">Spiritual</button>
+			  </li>
+			</ul>
+			<div class="tab-content pt-2" id="borderedTabJustifiedContent">
+			  <div class="tab-pane fade show active" id="bordered-justified-Pengetahuan" role="tabpanel" aria-labelledby="home-tab">
+			  	<table class="table table-hover datatable">
+			  		<thead>
+			  			<th>Siswa</th>
+			  			<th>Semester</th>
+			  			<th>Mapel Wajib</th>
+			  			<th>Mapel Jurusan</th>
+			  			<th>KD</th>
+			  			<th>Nilai P1 TGS</th>
+			  			<th>Nilai P2 TLS</th>
+			  			<th>Nilai P3 TLS</th>
+			  		</thead>
+			  		<tbody>
+			  			{% for data in data_angka.pengetahuan %}
+			  			<tr>
+			  				<td>{{ data.mo_siswa__murid_nama }}</td>
+			  				<td>{{ data.mo_semester__skl_s_semester }}</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+				  				  <!-- Disabled Backdrop Modal -->
+					              <button type="button" class="btn btn-primary btn-sm rounder-pill pengetahuan_bs" data-bs-toggle="modal" data-bs-target="#llll">
+					                <span class="badge rounded-pill bg-primary pengetahuan">{{ data.mo_kompetensi_dasar__guru_nomor_kd }}</span>
+					              </button>
+					              <div class="modal fade pengetahuan_data" id="llll" tabindex="-1" data-bs-backdrop="false">
+					                <div class="modal-dialog">
+					                  <div class="modal-content">
+					                    <div class="modal-header">
+					                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					                    </div>
+					                    <div class="modal-body">
+					                    	{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None and data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}</span>
+						                    {% elif data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None and data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}</span>
+					                    	{% endif %}
+					                    	<br>
+					                    	<br>
+					                      {{ mo_kompetensi_dasar__guru_kompetensi_dasar }}
+					                    </div>
+					                    <div class="modal-footer">
+					                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div>
+					          <!-- End Disabled Backdrop Modal-->	
+			  				</td>
+			  				<td>{{ data.mo_nilai_P1_TGS__avg }}</td>
+			  				<td>{{ data.mo_nilai_P2_TLS__avg }}</td>
+			  				<td>{{ data.mo_nilai_P3_TLS__avg }}</td>
+			  			</tr>
+			  			{% endfor %}
+			  		</tbody>
+			  	</table>
+			  </div>
+			  <div class="tab-pane fade" id="bordered-justified-Keterampilan" role="tabpanel" aria-labelledby="profile-tab">
+			  	<table class="table table-hover datatable">
+			  		<thead>
+			  			<th>Siswa</th>
+			  			<th>Semester</th>
+			  			<th>Mapel Wajib</th>
+			  			<th>Mapel Jurusan</th>
+			  			<th>KD</th>
+			  			<th>Nilai Praktek</th>
+			  			<th>Nilai Produk</th>
+			  			<th>Nilai Proyek</th>
+			  			<th>Nilai Portofolio</th>
+			  		</thead>
+			  		<tbody>
+			  			{% for data in data_angka.keterampilan %}
+			  			<tr>
+			  				<td>{{ data.mo_siswa__murid_nama }}</td>
+			  				<td>{{ data.mo_semester__skl_s_semester }}</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+				  				  <!-- Disabled Backdrop Modal -->
+					              <button type="button" class="btn btn-primary btn-sm rounder-pill keterampilan_bs" data-bs-toggle="modal">
+					                <span class="badge rounded-pill bg-primary">{{ data.mo_kompetensi_dasar__guru_nomor_kd }}</span>
+					              </button>
+					              <div class="modal fade keterampilan_data" tabindex="-1" data-bs-backdrop="false">
+					                <div class="modal-dialog">
+					                  <div class="modal-content">
+					                    <div class="modal-header">
+					                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					                    </div>
+					                    <div class="modal-body">
+					                    	{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None and data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}</span>
+						                    {% elif data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None and data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}</span>
+					                    	{% endif %}
+					                    	<br>
+					                    	<br>
+					                      {{ mo_kompetensi_dasar__guru_kompetensi_dasar }}
+					                    </div>
+					                    <div class="modal-footer">
+					                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div>
+					          <!-- End Disabled Backdrop Modal-->	
+			  				</td>
+			  				<td>{{ data.mo_praktek__avg }}</td>
+			  				<td>{{ data.mo_produk__avg }}</td>
+			  				<td>{{ data.mo_proyek__avg }}</td>
+			  				<td>{{ data.mo_portofolio__avg }}</td>
+			  			</tr>
+			  			{% endfor %}
+			  		</tbody>
+			  	</table>
+			  </div>
+			  <div class="tab-pane fade" id="bordered-justified-Sosial" role="tabpanel" aria-labelledby="contact-tab">
+			  	<table class="table table-hover datatable">
+			  		<thead>
+			  			<th>Siswa</th>
+			  			<th>Semester</th>
+			  			<th>Mapel Wajib</th>
+			  			<th>Mapel Jurusan</th>
+			  			<th>KD</th>
+			  			<th>Nilai</th>
+			  		</thead>
+			  		<tbody>
+			  			{% for data in data_angka.sosial %}
+			  			<tr>
+			  				<td>{{ data.mo_siswa__murid_nama }}</td>
+			  				<td>{{ data.mo_semester__skl_s_semester }}</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+				  				  <!-- Disabled Backdrop Modal -->
+					              <button type="button" class="btn btn-primary btn-sm rounder-pill sosial_bs" data-bs-toggle="modal">
+					                <span class="badge rounded-pill bg-primary">{{ data.mo_kompetensi_dasar__guru_nomor_kd }}</span>
+					              </button>
+					              <div class="modal fade sosial_data" tabindex="-1" data-bs-backdrop="false">
+					                <div class="modal-dialog">
+					                  <div class="modal-content">
+					                    <div class="modal-header">
+					                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					                    </div>
+					                    <div class="modal-body">
+					                    	{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None and data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}</span>
+						                    {% elif data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None and data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}</span>
+					                    	{% endif %}
+					                    	<br>
+					                    	<br>
+					                      {{ data.mo_kompetensi_dasar__guru_kompetensi_dasar }}
+					                    </div>
+					                    <div class="modal-footer">
+					                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div>
+					          <!-- End Disabled Backdrop Modal-->	
+			  				</td>
+			  				{% if data.mo_proyeksi_nilai__avg <= 100 and data.mo_proyeksi_nilai__avg >= 75 %}
+				  				<td>Sangat Baik</td>
+				  			{% elif data.mo_proyeksi_nilai__avg < 75 and data.mo_proyeksi_nilai__avg >= 50 %}
+				  				<td>Baik</td>
+				  			{% elif data.mo_proyeksi_nilai__avg < 50 and data.mo_proyeksi_nilai__avg >= 25 %}
+				  				<td>Cukup</td>
+				  			{% elif data.mo_proyeksi_nilai__avg < 25 %}
+				  				<td>Kurang</td>
+				  			{% endif %}
+			  			</tr>
+			  			{% endfor %}
+			  		</tbody>
+			  	</table>
+			  </div>
+			  <div class="tab-pane fade" id="bordered-justified-Spiritual" role="tabpanel" aria-labelledby="contact-tab">
+			  	<table class="table table-hover datatable">
+			  		<thead>
+			  			<th>Siswa</th>
+			  			<th>Semester</th>
+			  			<th>Mapel Wajib</th>
+			  			<th>Mapel Jurusan</th>
+			  			<th>KD</th>
+			  			<th>Nilai</th>
+			  		</thead>
+			  		<tbody>
+			  			{% for data in data_angka.spiritual %}
+			  			<tr>
+			  				<td>{{ data.mo_siswa__murid_nama }}</td>
+			  				<td>{{ data.mo_semester__skl_s_semester }}</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+				  				  <!-- Disabled Backdrop Modal -->
+					              <button type="button" class="btn btn-primary btn-sm rounder-pill spiritual_bs" data-bs-toggle="modal">
+					                <span class="badge rounded-pill bg-primary">{{ data.mo_kompetensi_dasar__guru_nomor_kd }}</span>
+					              </button>
+					              <div class="modal fade spiritual_data" tabindex="-1" data-bs-backdrop="false">
+					                <div class="modal-dialog">
+					                  <div class="modal-content">
+					                    <div class="modal-header">
+					                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					                    </div>
+					                    <div class="modal-body">
+					                    	{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None and data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}</span>
+						                    {% elif data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None and data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}</span>
+					                    	{% endif %}
+					                    	<br>
+					                    	<br>
+					                      {{ data.mo_kompetensi_dasar__guru_kompetensi_dasar }}
+					                    </div>
+					                    <div class="modal-footer">
+					                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div>
+					          <!-- End Disabled Backdrop Modal-->	
+			  				</td>
+			  				{% if data.mo_proyeksi_nilai__avg <= 100 and data.mo_proyeksi_nilai__avg >= 75 %}
+				  				<td>Sangat Baik</td>
+				  			{% elif data.mo_proyeksi_nilai__avg < 75 and data.mo_proyeksi_nilai__avg >= 50 %}
+				  				<td>Baik</td>
+				  			{% elif data.mo_proyeksi_nilai__avg < 50 and data.mo_proyeksi_nilai__avg >= 25 %}
+				  				<td>Cukup</td>
+				  			{% elif data.mo_proyeksi_nilai__avg < 25 %}
+				  				<td>Kurang</td>
+				  			{% endif %}
+			  			</tr>
+			  			{% endfor %}
+			  		</tbody>
+			  	</table>
+			  </div>
+			</div>
+			<!-- End Bordered Tabs Justified -->
+    	</div>
+    </div>
+
+
+  	<div class="card">
+  		<div class="card-body">
+  			<h1 class="card-title">x̄ Nilai Ujian Siswa</h1>
+  			<!-- Bordered Tabs Justified -->
+				<ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+				  <li class="nav-item flex-fill" role="presentation">
+				    <button class="nav-link w-100 active" id="ulangan-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-ulangan" type="button" role="tab" aria-controls="ulangan" aria-selected="true">Ulangan</button>
+				  </li>
+				  <li class="nav-item flex-fill" role="presentation">
+				    <button class="nav-link w-100" id="uts-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-uts" type="button" role="tab" aria-controls="uts" aria-selected="false">UTS</button>
+				  </li>
+				  <li class="nav-item flex-fill" role="presentation">
+				    <button class="nav-link w-100" id="uas-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-uas" type="button" role="tab" aria-controls="uas" aria-selected="false">UAS</button>
+				  </li>
+				</ul>
+				<div class="tab-content pt-2" id="borderedTabJustifiedContent">
+				  <div class="tab-pane fade show active" id="bordered-justified-ulangan" role="tabpanel" aria-labelledby="ulangan-tab">
+				  	<table class="table table-hover datatable">
+			  		<thead>
+			  			<th>Siswa</th>
+			  			<th>Semester</th>
+			  			<th>Mapel Wajib</th>
+			  			<th>Mapel Jurusan</th>
+			  			<th>KD</th>
+			  			<th>Nilai</th>
+			  		</thead>
+			  		<tbody>
+			  			{% for data in data_angka.ulangan %}
+			  			<tr>
+			  				<td>{{ data.mo_siswa__murid_nama }}</td>
+			  				<td>{{ data.mo_semester__skl_s_semester }}</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+				  				  <!-- Disabled Backdrop Modal -->
+					              <button type="button" class="btn btn-primary btn-sm rounder-pill ulangan_bs" data-bs-toggle="modal">
+					                <span class="badge rounded-pill bg-primary">{{ data.mo_kompetensi_dasar__guru_nomor_kd }}</span>
+					              </button>
+					              <div class="modal fade ulangan_data" tabindex="-1" data-bs-backdrop="false">
+					                <div class="modal-dialog">
+					                  <div class="modal-content">
+					                    <div class="modal-header">
+					                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					                    </div>
+					                    <div class="modal-body">
+					                    	{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None and data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}</span>
+						                    {% elif data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None and data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is None %}
+						                    	<span class="badge rounded-pill bg-success">{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}</span>
+					                    	{% endif %}
+					                    	<br>
+					                    	<br>
+					                      {{ data.mo_kompetensi_dasar__guru_kompetensi_dasar }}
+					                    </div>
+					                    <div class="modal-footer">
+					                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div>
+					          <!-- End Disabled Backdrop Modal-->	
+			  				</td>
+			  				<td>{{ data.mo_nilai__avg }}</td>
+			  			</tr>
+			  			{% endfor %}
+			  		</tbody>
+			  	</table>
+				  </div>
+				  <div class="tab-pane fade" id="bordered-justified-uts" role="tabpanel" aria-labelledby="uts-tab">
+				  	<table class="table table-hover datatable">
+			  		<thead>
+			  			<th>Siswa</th>
+			  			<th>Semester</th>
+			  			<th>Mapel Wajib</th>
+			  			<th>Mapel Jurusan</th>
+			  			<th>Nilai</th>
+			  		</thead>
+			  		<tbody>
+			  			{% for data in data_angka.uts %}
+			  			<tr>
+			  				<td>{{ data.mo_siswa__murid_nama }}</td>
+			  				<td>{{ data.mo_semester__skl_s_semester }}</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>{{ data.mo_nilai__avg }}</td>
+			  			</tr>
+			  			{% endfor %}
+			  		</tbody>
+			  	</table>
+				  </div>
+				  <div class="tab-pane fade" id="bordered-justified-uas" role="tabpanel" aria-labelledby="uas-tab">
+				  	<table class="table table-hover datatable">
+			  		<thead>
+			  			<th>Siswa</th>
+			  			<th>Semester</th>
+			  			<th>Mapel Wajib</th>
+			  			<th>Mapel Jurusan</th>
+			  			<th>Nilai</th>
+			  		</thead>
+			  		<tbody>
+			  			{% for data in data_angka.uas %}
+			  			<tr>
+			  				<td>{{ data.mo_siswa__murid_nama }}</td>
+			  				<td>{{ data.mo_semester__skl_s_semester }}</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_wajib__mapel_wajib_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>
+			  					{% if data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran is not None %}
+			  					{{ data.mo_mata_pelajaran_jurusan__mapel_jurusan_pelajaran }}
+			  					{% else %}
+			  					-
+			  					{% endif %}
+			  				</td>
+			  				<td>{{ data.mo_nilai__avg }}</td>
+			  			</tr>
+			  			{% endfor %}
+			  		</tbody>
+			  	</table>
+				  </div>
+				</div>
+				<!-- End Bordered Tabs Justified -->
+  		</div>
+  	</div>
+
+    <script type="text/javascript">
+    	function makeid(length) {
+			    var result           = '';
+			    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+			    var charactersLength = characters.length;
+			    for ( var i = 0; i < length; i++ ) {
+					      result += characters.charAt(Math.floor(Math.random() * 
+					 charactersLength));
+			   }
+			   return result;
+			}
+
+			const pengetahuan_aa = document.getElementsByClassName("pengetahuan_bs");
+			const pengetahuan_aa_2 = document.getElementsByClassName("pengetahuan_data");
+			for (let i = 0; i < pengetahuan_aa.length; i++) {
+				var p = makeid(10);
+				var o = "#"+p;
+			  pengetahuan_aa[i].setAttribute('data-bs-target', o);
+			  // var x = pengetahuan_aa[i].getAttribute('data-bs-target');
+			  pengetahuan_aa_2[i].setAttribute('id', p);
+			}
+
+			const keterampilan_aa = document.getElementsByClassName("keterampilan_bs");
+			const keterampilan_aa_2 = document.getElementsByClassName("keterampilan_data");
+			for (let i = 0; i < keterampilan_aa.length; i++) {
+				var p = makeid(10);
+				var o = "#"+p;
+			  keterampilan_aa[i].setAttribute('data-bs-target', o);
+			  // var x = keterampilan_aa[i].getAttribute('data-bs-target');
+			  keterampilan_aa_2[i].setAttribute('id', p);
+			}
+
+			const sosial_aa = document.getElementsByClassName("sosial_bs");
+			const sosial_aa_2 = document.getElementsByClassName("sosial_data");
+			for (let i = 0; i < sosial_aa.length; i++) {
+				var p = makeid(10);
+				var o = "#"+p;
+			  sosial_aa[i].setAttribute('data-bs-target', o);
+			  // var x = sosial_aa[i].getAttribute('data-bs-target');
+			  sosial_aa_2[i].setAttribute('id', p);
+			}
+
+			const spiritual_aa = document.getElementsByClassName("spiritual_bs");
+			const spiritual_aa_2 = document.getElementsByClassName("spiritual_data");
+			for (let i = 0; i < spiritual_aa.length; i++) {
+				var p = makeid(10);
+				var o = "#"+p;
+			  spiritual_aa[i].setAttribute('data-bs-target', o);
+			  // var x = spiritual_aa[i].getAttribute('data-bs-target');
+			  spiritual_aa_2[i].setAttribute('id', p);
+			}
+
+			const ulangan_aa = document.getElementsByClassName("ulangan_bs");
+			const ulangan_aa_2 = document.getElementsByClassName("ulangan_data");
+			for (let i = 0; i < ulangan_aa.length; i++) {
+				var p = makeid(10);
+				var o = "#"+p;
+			  ulangan_aa[i].setAttribute('data-bs-target', o);
+			  // var x = ulangan_aa[i].getAttribute('data-bs-target');
+			  ulangan_aa_2[i].setAttribute('id', p);
+			}
+
+		
+			console.log(makeid(5));
+    </script>
+</main>
+{% endblock sub_content %}

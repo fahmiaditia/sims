@@ -1,0 +1,80 @@
+{% extends 'templates_ekskul/dashboard_ekskul.html' %}
+{% load static %}
+{% block title %}Input Nilai {{ info.skl_ekskul }} {% endblock title %}
+{% load widget_tweaks %}
+
+{% block sub_content %}
+<main id="main">
+	<div class="pagetitle">
+      <h1>Kelola Nilai Ektrakulikuler <b>{{ info.skl_ekskul }}</b></h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_ekskul_nilai'%}">Monitoring</a></li>
+          <li class="breadcrumb-item">Nilai</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+  <div class="card">
+    <div class="card-body">
+      <!-- Multi Columns Form -->
+      <h1 class="card-title">Filter</h1>
+
+      <form class="row g-3">
+        <div class="col-md-12">
+          <label for="inputName5" class="form-label">Siswa</label>
+          {% render_field nilai.form.mo_siswa class="form-control" %}
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail5" class="form-label">Kelas</label>
+          {% render_field nilai.form.mo_kelas class="form-control" %}
+        </div>
+        <div class="col-md-6">
+          <label for="inputPassword5" class="form-label">Tahun Ajaran</label>
+          {% render_field nilai.form.mo_tahun_ajaran class="form-control" %}
+        </div>
+        <div class="col-12">
+          <label for="inputAddress5" class="form-label">Semester</label>
+          {% render_field nilai.form.mo_semester class="form-control" %}
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Cari</button>
+        </div>
+      </form><!-- End Multi Columns Form -->
+    </div>
+  </div>
+	<div class="card">
+		<div class="card-body">
+			<!-- No Labels Form -->
+			<h1 class="card-title">Tabel Nilai</h1>
+      <a href="{% url 'monitoring:page_ekskul_profil_create' %}" class="btn btn-primary btn-sm">Tambah Nilai</a>
+      <table class="table table-hover datatable">
+        <thead>
+          <th scope="col">Siswa</th>
+          <th scope="col">Kelas</th>
+          <th scope="col">Tahun Ajaran</th>
+          <th scope="col">Semester</th>
+          <th scope="col">Ekskul</th>
+          <th scope="col">Nilai</th>
+          <th scope="col">Aksi</th>
+        </thead>
+        <tbody>
+          {% for data in nilai.qs %}
+          <tr>
+            <td>{{ data.mo_siswa.murid_nama }}</td>
+            <td>{{ data.mo_kelas }}</td>
+            <td>{{ data.mo_tahun_ajaran }}</td>
+            <td>{{ data.mo_semester }}</td>
+            <td>{{ data.mo_ekskul }}</td>
+            <td>{{ data.mo_nilai }}</td>
+            <td>
+              <a href="{% url 'monitoring:page_ekskul_nilai_update' data.pk %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'monitoring:page_ekskul_nilai_delete' data.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

@@ -1,0 +1,248 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% block title %}Perfoma Kelas{% endblock title %}
+
+{% block sub_content %}
+
+<main id='main'>
+	<div class="pagetitle">
+      <h1>Perfoma Kelas <b>{{ kelas_page.skl_k_kelas_nama }}</b></h1>
+      <small>Mata Pelajaran : <b>{{ guru.guru_mata_pelajaran_jurusan }}</b></small>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib'%}">Monitoring</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_performa_kelas_landing'%}">Performa Kelas</a></li>
+          <li class="breadcrumb-item">Detail</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="card">
+    	<div class="card-body">
+    		<h1 class="card-title">Navigasi</h1>
+    		<a href="#pengetahuan" class="btn btn-warning btn-sm">Pengetahuan</a>
+    		<a href="#keterampilan" class="btn btn-warning btn-sm">Keterampilan</a>
+    		<a href="#sosial" class="btn btn-warning btn-sm">Sikap Sosial</a>
+    		<a href="#spiritual" class="btn btn-warning btn-sm">Sikap Spiritual</a>
+    		<a href="#ulangan" class="btn btn-warning btn-sm">Ulangan</a>
+    		<a href="#uts" class="btn btn-warning btn-sm">UTS</a>
+    		<a href="#uas" class="btn btn-warning btn-sm">UAS</a>
+    	</div>
+    </div>
+    <div class="card" id="pengetahuan">
+    	<div class="card-body">
+    		<h1 class="card-title">Tabel Detail Nilai Pengetahuan</h1>
+    		<table class="table table-hover datatable">
+		   		<thead>
+		   			<th>Siswa</th>
+		   			<th>Tahun Ajaran</th>
+		   			<th>Semester</th>
+		   			<th>KD</th>
+		   			<th>Penilaian Ke</th>
+		   			<th>Nilai P1 TGS</th>
+		   			<th>Nilai P2 TLS</th>
+		   			<th>Nilai P3 TLS</th>
+		   		</thead>
+		   		<tbody>
+		   			{% for data in nilai_pengetahuan_jurusan %}
+		   			<tr>
+		   				<td><a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan_pengetahuan_detail' data.mo_siswa.murid_profil_uuid %}">{{ data.mo_siswa.murid_nama }}</a></td>
+		   				<td>{{ data.mo_tahun_ajaran }}</td>
+		   				<td>{{ data.mo_semester }}</td>
+		   				<td>{{ data.mo_kompetensi_dasar.guru_nomor_kd }}</td>
+		   				<td>{{ data.mo_penilaian_ke }}</td>
+		   				<td>{{ data.mo_nilai_P1_TGS }}</td>
+		   				<td>{{ data.mo_nilai_P2_TLS }}</td>
+		   				<td>{{ data.mo_nilai_P3_TLS }}</td>
+		   			</tr>
+		   			{% endfor %}
+		   		</tbody>
+		   	</table>
+    	</div>
+    </div>
+
+
+    <div class="card" id="keterampilan">
+    	<div class="card-body">
+    		<h1 class="card-title">Tabel Detail Nilai Keterampilan</h1>
+    		<table class="table table-hover datatable">
+		   		<thead>
+		   			<th>Siswa</th>
+		   			<th>Tahun Ajaran</th>
+		   			<th>Semester</th>
+		   			<th>KD</th>
+		   			<th>Penilaian Ke</th>
+		   			<th>Praktek</th>
+		   			<th>Produk</th>
+		   			<th>Proyek</th>
+		   			<th>Portofolio</th>
+		   		</thead>
+		   		<tbody>
+		   			{% for data in nilai_keterampilan_jurusan %}
+		   			<tr>
+		   				<td><a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan_pengetahuan_detail' data.mo_siswa.murid_profil_uuid %}">{{ data.mo_siswa.murid_nama }}</a></td>
+		   				<td>{{ data.mo_tahun_ajaran }}</td>
+		   				<td>{{ data.mo_semester }}</td>
+		   				<td>{{ data.mo_kompetensi_dasar.guru_nomor_kd }}</td>
+		   				<td>{{ data.mo_penilaian_ke }}</td>
+		   				<td>{{ data.mo_praktek }}</td>
+		   				<td>{{ data.mo_produk }}</td>
+		   				<td>{{ data.mo_proyek }}</td>
+		   				<td>{{ data.mo_portofolio }}</td>
+		   			</tr>
+		   			{% endfor %}
+		   		</tbody>
+		   	</table>
+    	</div>
+    </div>
+
+
+    <div class="card" id="sosial">
+    	<div class="card-body">
+    		<h1 class="card-title">Tabel Detail Nilai Sikap Sosial</h1>
+    		<table class="table table-hover datatable">
+		   		<thead>
+		   			<th>Siswa</th>
+		   			<th>Tahun Ajaran</th>
+		   			<th>Semester</th>
+		   			<th>KD</th>
+		   			<th>Penilaian Ke</th>
+		   			<th>Nilai</th>
+		   		</thead>
+		   		<tbody>
+		   			{% for data in nilai_sikap_sosial_jurusan %}
+		   			<tr>
+		   				<td><a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan_pengetahuan_detail' data.mo_siswa.murid_profil_uuid %}">{{ data.mo_siswa.murid_nama }}</a></td>
+		   				<td>{{ data.mo_tahun_ajaran }}</td>
+		   				<td>{{ data.mo_semester }}</td>
+		   				<td>{{ data.mo_kompetensi_dasar.guru_nomor_kd }}</td>
+		   				<td>{{ data.mo_penilaian_ke }}</td>
+		   				<td>{{ data.mo_nilai }}</td>
+		   			</tr>
+		   			{% endfor %}
+		   		</tbody>
+		   	</table>
+    	</div>
+    </div>
+
+
+    <div class="card" id="spiritual">
+    	<div class="card-body">
+    		<h1 class="card-title">Tabel Detail Nilai Sikap Spiritual</h1>
+    		<table class="table table-hover datatable">
+		   		<thead>
+		   			<th>Siswa</th>
+		   			<th>Tahun Ajaran</th>
+		   			<th>Semester</th>
+		   			<th>KD</th>
+		   			<th>Penilaian Ke</th>
+		   			<th>Nilai</th>
+		   		</thead>
+		   		<tbody>
+		   			{% for data in nilai_sikap_spiritual_jurusan %}
+		   			<tr>
+		   				<td><a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan_pengetahuan_detail' data.mo_siswa.murid_profil_uuid %}">{{ data.mo_siswa.murid_nama }}</a></td>
+		   				<td>{{ data.mo_tahun_ajaran }}</td>
+		   				<td>{{ data.mo_semester }}</td>
+		   				<td>{{ data.mo_kompetensi_dasar.guru_nomor_kd }}</td>
+		   				<td>{{ data.mo_penilaian_ke }}</td>
+		   				<td>{{ data.mo_nilai }}</td>
+		   			</tr>
+		   			{% endfor %}
+		   		</tbody>
+		   	</table>
+    	</div>
+    </div>
+
+
+    <div class="card" id="ulangan">
+    	<div class="card-body">
+    		<h1 class="card-title">Tabel Detail Nilai Ulangan</h1>
+    		<table class="table table-hover datatable">
+		   		<thead>
+		   			<th>Siswa</th>
+		   			<th>Tahun Ajaran</th>
+		   			<th>Semester</th>
+		   			<th>KD</th>
+		   			<th>Ulangan Ke</th>
+		   			<th>Nilai</th>
+		   		</thead>
+		   		<tbody>
+		   			{% for data in nilai_ulangan_jurusan %}
+		   			<tr>
+		   				<td>
+		   					<a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan_pengetahuan_detail' data.mo_siswa.murid_profil_uuid %}">
+		   						{{ data.mo_siswa.murid_nama }}
+		   					</a>
+		   				</td>
+		   				<td>{{ data.mo_tahun_ajaran }}</td>
+		   				<td>{{ data.mo_semester }}</td>
+		   				<td>{{ data.mo_kompetensi_dasar.guru_nomor_kd }}</td>
+		   				<td>{{ data.mo_ulangan_ke }}</td>
+		   				<td>{{ data.mo_nilai }}</td>
+		   			</tr>
+		   			{% endfor %}
+		   		</tbody>
+		   	</table>
+    	</div>
+    </div>
+
+
+    <div class="card" id="uts">
+    	<div class="card-body">
+    		<h1 class="card-title">Tabel Detail Nilai UTS</h1>
+    		<table class="table table-hover datatable">
+		   		<thead>
+		   			<th>Siswa</th>
+		   			<th>Tahun Ajaran</th>
+		   			<th>Semester</th>
+		   			<th>Nilai</th>
+		   		</thead>
+		   		<tbody>
+		   			{% for data in nilai_uts_jurusan %}
+		   			<tr>
+		   				<td>
+		   					<a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan_pengetahuan_detail' data.mo_siswa.murid_profil_uuid %}">
+		   						{{ data.mo_siswa.murid_nama }}
+		   					</a>
+		   				</td>
+		   				<td>{{ data.mo_tahun_ajaran }}</td>
+		   				<td>{{ data.mo_semester }}</td>
+		   				<td>{{ data.mo_nilai }}</td>
+		   			</tr>
+		   			{% endfor %}
+		   		</tbody>
+		   	</table>
+    	</div>
+    </div>
+
+    <div class="card" id="uas">
+    	<div class="card-body">
+    		<h1 class="card-title">Tabel Detail Nilai UAS</h1>
+    		<table class="table table-hover datatable">
+		   		<thead>
+		   			<th>Siswa</th>
+		   			<th>Tahun Ajaran</th>
+		   			<th>Semester</th>
+		   			<th>Nilai</th>
+		   		</thead>
+		   		<tbody>
+		   			{% for data in nilai_uas_jurusan %}
+		   			<tr>
+		   				<td>
+		   					<a href="{% url 'monitoring:page_guru_mean_nilai_siswa_jurusan_pengetahuan_detail' data.mo_siswa.murid_profil_uuid %}">
+		   						{{ data.mo_siswa.murid_nama }}
+		   					</a>
+		   				</td>
+		   				<td>{{ data.mo_tahun_ajaran }}</td>
+		   				<td>{{ data.mo_semester }}</td>
+		   				<td>{{ data.mo_nilai }}</td>
+		   			</tr>
+		   			{% endfor %}
+		   		</tbody>
+		   	</table>
+    	</div>
+    </div>
+</main>
+
+{% endblock sub_content %}

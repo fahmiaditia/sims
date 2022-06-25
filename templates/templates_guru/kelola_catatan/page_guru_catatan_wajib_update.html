@@ -1,0 +1,41 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Update Catatan {{ guru.guru_mata_pelajaran_wajib }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Update Catatan <b>{{ guru.guru_mata_pelajaran_wajib }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_catatan_wajib' %}">Catatan</a></li>
+	      <li class="breadcrumb-item active">Update</li>
+	    </ol>
+	</nav>
+
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Update Catatan</h1>
+			<form class="row g-3" method="POST">
+				{% csrf_token %}
+				<div class="col-md-6">
+					<label for="inputName5" class="form-label">Siswa</label>
+					{{ form.guru_catatan_siswa }}
+				</div>
+				<div class="col-md-6">
+					<label for="inputEmail5" class="form-label">Status</label>
+					{{ form.guru_catatan_status }}
+				</div>
+				<div class="col-md-6">
+					<label for="inputEmail5" class="form-label">Catatan</label>
+					{{ form.guru_catatan }}
+				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">Simpan</button>
+				</div>
+			</form><!-- End Multi Columns Form -->
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

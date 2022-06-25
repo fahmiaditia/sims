@@ -1,0 +1,57 @@
+{% extends 'templates_kepsek/dashboard_kepsek.html' %}
+{% load static %}
+{% block title %} Update
+{% endblock title %}
+
+{% block sub_content %}
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_kepsek_performa_kelas_landing'%}">Monitoring</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_kepsek_profil'%}">Profil</a></li>
+          <li class="breadcrumb-item">Update</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Ubah Profil</h1>
+        <!-- Multi Columns Form -->
+              <form class="row g-3" method="POST">
+                {%  csrf_token %}
+                <div class="col-md-12">
+                  <label for="inputName5" class="form-label">Nama Lengkap</label>
+                  {{ form.kepsek_nama }}
+                </div>
+                <div class="col-md-6">
+                  <label for="inputEmail5" class="form-label">NIP</label>
+                  {{ form.kepsek_nip }}
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPassword5" class="form-label">NUPTK</label>
+                  {{ form.kepsek_nuptk }}
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress5" class="form-label">Tempat, Tanggal Lahir</label>
+                  {{ form.kepsek_tempat_tanggal_lahir }}
+                </div>
+                <div class="col-6">
+                  <label for="inputAddress2" class="form-label">Jabatan</label>
+                  {{ form.kepsek_jabatan }}
+                </div>
+                <div class="col-md-6">
+                  <label for="inputCity" class="form-label">Pangkat Golongan</label>
+                  {{ form.kepsek_pangkat_golongan }}
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form><!-- End Multi Columns Form -->
+      </div>
+    </div>
+
+  </main><!-- End #main -->
+{% endblock sub_content %}

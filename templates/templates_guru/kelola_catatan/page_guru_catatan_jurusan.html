@@ -1,0 +1,51 @@
+{% extends 'templates_guru/dashboard_guru.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} KKM {{ guru.guru_mata_pelajaran_jurusan }}{% endblock title %}
+
+{% block sub_content %}
+<main id="main">
+	<h5>Kriteria Ketuntasan Minimal <b>{{ guru.guru_mata_pelajaran_jurusan }}</b></h5>
+	<nav>
+	    <ol class="breadcrumb">
+	      <li class="breadcrumb-item"><a href="{% url 'monitoring:page_guru_list_pengetahuan_wajib' %}">Monitoring</a></li>
+	      <li class="breadcrumb-item active">KKM</li>
+	    </ol>
+	</nav>
+
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">List KKM</h1>
+			<a href="{% url 'monitoring:page_guru_catatan_jurusan_create' %}" class="btn btn-primary btn-sm">Tambah</a>
+			<table class="table table-hover datatable">
+				<thead>
+					<th>Status</th>
+					<th>Siswa</th>
+					<th>Catatan</th>
+				</thead>
+				<tbody>
+					{% for data in catatan %}
+						<tr>
+							<td>
+								{% if data.guru_catatan_status == "Peringatan" %}
+									<span class="badge bg-danger rounded-pill">Peringatan</span>
+								{% elif data.guru_catatan_status == "Himbauan" %}
+									<span class="badge bg-warning rounded-pill">Himbauan</span>
+								{% elif data.guru_catatan_status == "Pengumuman" %}
+									<span class="badge bg-primary rounded-pill">Pengumuman</span>
+								{% endif %}
+							</td>
+							<td>{{ data.guru_catatan_siswa }}</td>
+							<td>{{ data.guru_catatan }}</td>
+							<td>
+					        	<a href="{% url 'monitoring:page_guru_catatan_jurusan_update' data.guru_catatan_uuid %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+					        	<a href="{% url 'monitoring:page_guru_catatan_jurusan_delete' data.guru_catatan_uuid %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+					        </td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</main>
+{% endblock sub_content %}

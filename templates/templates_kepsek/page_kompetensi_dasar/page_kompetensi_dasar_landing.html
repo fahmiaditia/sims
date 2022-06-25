@@ -1,0 +1,50 @@
+{% extends 'templates_kepsek/dashboard_kepsek.html' %}
+{% load static %}
+{% block title %}Kompetensi Dasar{% endblock title %}
+
+
+{% block sub_content %}
+
+<main id="main">
+	<div class="pagetitle">
+      <h1>Kompetensi Dasar</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_kepsek_performa_kelas_landing'%}">Monitoring</a></li>
+          <li class="breadcrumb-item">Kompetensi Dasar</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="card">
+    	<div class="card-body">
+    		<div class="row">
+    			<div class="col-md-6">
+		    		<h1 class="card-title">Mata Pelajaran Wajib</h1>
+		    		<ul>
+		    			{% for data in mapel_wajib %}
+		    			<li>
+		    				<a href="{% url 'monitoring:page_kepsek_kompetensi_dasar_wajib_detail' data.mapel_wajib_pelajaran_uuid %}">{{ data.mapel_wajib_pelajaran }}</a>
+		    			</li>
+		    			{% endfor %}
+		    		</ul>
+	    		</div>
+	    		<div class="col-md-6">
+		    		<h1 class="card-title">Mata Pelajaran Jurusan</h1>
+		    		<ul>
+		    			{% for data in mapel_jurusan %}
+		    			<li>
+		    				<a href="{% url 'monitoring:page_kepsek_kompetensi_dasar_jurusan_detail' data.mapel_jurusan_pelajaran_uuid %}">
+		    					{{ data.mapel_jurusan_pelajaran }} 
+                	<span class="badge rounded-pill bg-warning">{{ data.mapel_jurusan_jurusan }}</span>
+		    				</a>
+		    			</li>
+		    			{% endfor %}
+		    		</ul>
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+</main>
+{% endblock sub_content %}
+

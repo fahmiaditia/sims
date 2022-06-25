@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard Murid{% endblock title %}
+
+
+{% block dashboard %}
+<!-- DASHBOARD  -->
+  <!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <span class="d-none d-lg-block">SIMS</span>
+        <small class="d-none d-lg-block" style="margin-left: 10px;">Murid</small>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+</header><!-- End Header -->
+
+
+<!-- Sidebar --> 
+<aside id="sidebar" class="sidebar">
+
+<ul class="sidebar-nav" id="sidebar-nav">
+
+  <!-- <li class="nav-item">
+    <a class="nav-link " href="">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+    </a>
+  </li> -->
+
+  <li class="nav-heading">Siswa</li>  
+    
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'monitoring:page_murid_nilai' %}">
+        <i class="bi bi-graph-up"></i>
+        <span>Nilai</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+
+
+  <li class="nav-heading">Personal</li>  
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'monitoring:page_murid_profil' %}">
+      <i class="bi bi-person"></i>
+      <span>Profil</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'logout' %}">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Logout</span>
+    </a>
+  </li><!-- End Login Page Nav -->
+</ul>
+
+</aside>
+<!-- End Sidebar -->
+
+<!-- END DASHBOARD -->
+{% endblock dashboard %}
+
+{% block content %}
+	{% block sub_content %}
+	{% endblock sub_content %}
+{% endblock content %}

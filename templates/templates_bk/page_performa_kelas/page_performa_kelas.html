@@ -1,0 +1,1620 @@
+{% extends 'templates_bk/dashboard_bk.html' %}
+{% load static %}
+{% block title %}Performa Kelas{% endblock title %}
+{% load widget_tweaks %}
+
+
+{% block sub_content %}
+<main id='main'>
+
+  <script type="text/javascript">
+    var aa = JSON.parse("{{ data_grafik | escapejs }}");
+    console.log(aa);
+  </script>
+
+  	<div class="pagetitle">
+      <h1>Performa Kelas</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'monitoring:page_bk_nilai_siswa_landing'%}">Monitoring</a></li>
+          <li class="breadcrumb-item">Performa Kelas</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_kelas_10" aria-expanded="true" aria-controls="collapseOne">
+        Kelas 10
+        </button>
+      </h2>
+      <div id="collapse_kelas_10" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <div class="card" id='card_kelas_10'>
+            <div class="card-body">
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <h1 class="card-title">Kelas 10</h1>
+                  <small><b>Tabel x̄ Pengetahuan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai P1 TGS</th>
+                      <th>x̄ Nilai P2 TLS</th>
+                      <th>x̄ Nilai P3 TLS</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.pengetahuan.kelas_10 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai_P1_TGS__avg | floatformat }}</td>
+                        <td>{{ data.mo_nilai_P2_TLS__avg | floatformat }}</td>
+                        <td>{{ data.mo_nilai_P3_TLS__avg | floatformat }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-8">
+                  <h1 class="card-title">Diagram x̄ Nilai</h1>
+                  <small><b>Diagram Batang Pengetahuan</b></small>
+                  <canvas id="barChart_pengetahuan_10" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_pengetahuan_kelas_10 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_pengetahuan_10'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_pengetahuan_kelas_10['pengetahuan']['kelas_10']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai P1 TGS',
+                            data: data_pengetahuan_kelas_10['pengetahuan']['kelas_10']['nilai_P1_TGS'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Nilai P2 TLS',
+                            data: data_pengetahuan_kelas_10['pengetahuan']['kelas_10']['nilai_P2_TLS'],
+                            backgroundColor: [
+                            'rgba(215, 250, 90, 0.5)',
+                            ],
+                            borderColor: [
+                            'rgb(215, 250, 90)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Nilai P3 TLS',
+                            data: data_pengetahuan_kelas_10['pengetahuan']['kelas_10']['nilai_P3_TLS'],
+                            backgroundColor: [
+                            'rgba(103, 202, 230, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(103, 202, 230)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Keterampilan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Praktek</th>
+                      <th>x̄ Produk</th>
+                      <th>x̄ Proyek</th>
+                      <th>x̄ Portofolio</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.keterampilan.kelas_10 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_praktek__avg | floatformat }}</td>
+                        <td>{{ data.mo_produk__avg | floatformat }}</td>
+                        <td>{{ data.mo_proyek__avg | floatformat }}</td>
+                        <td>{{ data.mo_portofolio__avg | floatformat }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Keterampilan</b></small>
+                  <canvas id="barChart_keterampilan_10" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_keterampilan_kelas_10 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_keterampilan_10'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_keterampilan_kelas_10['keterampilan']['kelas_10']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Praktek',
+                            data: data_keterampilan_kelas_10['keterampilan']['kelas_10']['praktek'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Produk',
+                            data: data_keterampilan_kelas_10['keterampilan']['kelas_10']['produk'],
+                            backgroundColor: [
+                            'rgba(215, 250, 90, 0.5)',
+                            ],
+                            borderColor: [
+                            'rgb(215, 250, 90)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Proyek',
+                            data: data_keterampilan_kelas_10['keterampilan']['kelas_10']['proyek'],
+                            backgroundColor: [
+                            'rgba(103, 202, 230, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(103, 202, 230)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Portofolio',
+                            data: data_keterampilan_kelas_10['keterampilan']['kelas_10']['portofolio'],
+                            backgroundColor: [
+                            'rgba(230, 103, 226, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(230, 103, 226)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Sosial</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Proyeksi Nilai</th>
+                      <th>Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.sosial.kelas_10 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_proyeksi_nilai__avg | floatformat }}</td>
+                        {% if data.mo_proyeksi_nilai__avg <= 100 and data.mo_proyeksi_nilai__avg > 75 %}
+                          <td>Sangat Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 75 and data.mo_proyeksi_nilai__avg > 50 %}
+                          <td>Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 50 and data.mo_proyeksi_nilai__avg > 25 %}
+                          <td>Cukup</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 25 %}
+                          <td>Cukup</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Sosial</b></small>
+                  <canvas id="barChart_sosial_10" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_sosial_kelas_10 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_sosial_10'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_sosial_kelas_10['sosial']['kelas_10']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Proyeksi Nilai',
+                            data: data_sosial_kelas_10['sosial']['kelas_10']['proyeksi'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Spiritual</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Proyeksi Nilai</th>
+                      <th>Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.spiritual.kelas_10 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_proyeksi_nilai__avg | floatformat }}</td>
+                        {% if data.mo_proyeksi_nilai__avg <= 100 and data.mo_proyeksi_nilai__avg > 75 %}
+                          <td>Sangat Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 75 and data.mo_proyeksi_nilai__avg > 50 %}
+                          <td>Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 50 and data.mo_proyeksi_nilai__avg > 25 %}
+                          <td>Cukup</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 25 %}
+                          <td>Cukup</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Spiritual</b></small>
+                  <canvas id="barChart_spiritual_10" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_spiritual_kelas_10 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_spiritual_10'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_spiritual_kelas_10['spiritual']['kelas_10']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Proyeksi Nilai',
+                            data: data_spiritual_kelas_10['spiritual']['kelas_10']['proyeksi'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Ulangan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.ulangan.kelas_10 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Ulangan</b></small>
+                  <canvas id="barChart_ulangan_10" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_ulangan_kelas_10 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_ulangan_10'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_ulangan_kelas_10['ulangan']['kelas_10']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_ulangan_kelas_10['ulangan']['kelas_10']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ UTS</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.uts.kelas_10 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang UTS</b></small>
+                  <canvas id="barChart_uts_10" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_uts_kelas_10 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_uts_10'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_uts_kelas_10['uts']['kelas_10']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_uts_kelas_10['uts']['kelas_10']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ UAS</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.uas.kelas_10 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang UAS</b></small>
+                  <canvas id="barChart_uas_10" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_uas_kelas_10 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_uas_10'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_uas_kelas_10['uas']['kelas_10']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_uas_kelas_10['uas']['kelas_10']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_kelas_11" aria-expanded="true" aria-controls="collapseOne">
+        Kelas 11
+        </button>
+      </h2>
+      <div id="collapse_kelas_11" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <div class="card" id='card_kelas_11'>
+            <div class="card-body">
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <h1 class="card-title">Kelas 11</h1>
+                  <small><b>Tabel x̄ Pengetahuan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai P1 TGS</th>
+                      <th>x̄ Nilai P2 TLS</th>
+                      <th>x̄ Nilai P3 TLS</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.pengetahuan.kelas_11 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai_P1_TGS__avg | floatformat }}</td>
+                        <td>{{ data.mo_nilai_P2_TLS__avg | floatformat }}</td>
+                        <td>{{ data.mo_nilai_P3_TLS__avg | floatformat }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-8">
+                  <h1 class="card-title">Diagram x̄ Nilai</h1>
+                  <small><b>Diagram Batang Pengetahuan</b></small>
+                  <canvas id="barChart_pengetahuan_11" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_pengetahuan_kelas_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_pengetahuan_11'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_pengetahuan_kelas_11['pengetahuan']['kelas_11']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai P1 TGS',
+                            data: data_pengetahuan_kelas_11['pengetahuan']['kelas_11']['nilai_P1_TGS'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Nilai P2 TLS',
+                            data: data_pengetahuan_kelas_11['pengetahuan']['kelas_11']['nilai_P2_TLS'],
+                            backgroundColor: [
+                            'rgba(215, 250, 90, 0.5)',
+                            ],
+                            borderColor: [
+                            'rgb(215, 250, 90)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Nilai P3 TLS',
+                            data: data_pengetahuan_kelas_11['pengetahuan']['kelas_11']['nilai_P3_TLS'],
+                            backgroundColor: [
+                            'rgba(113, 202, 230, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(113, 202, 230)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Keterampilan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Praktek</th>
+                      <th>x̄ Produk</th>
+                      <th>x̄ Proyek</th>
+                      <th>x̄ Portofolio</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.keterampilan.kelas_11 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_praktek__avg | floatformat }}</td>
+                        <td>{{ data.mo_produk__avg | floatformat }}</td>
+                        <td>{{ data.mo_proyek__avg | floatformat }}</td>
+                        <td>{{ data.mo_portofolio__avg | floatformat }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Tabel x̄ Keterampilan</b></small>
+                  <canvas id="barChart_keterampilan_11" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_keterampilan_kelas_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_keterampilan_11'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_keterampilan_kelas_11['keterampilan']['kelas_11']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Praktek',
+                            data: data_keterampilan_kelas_11['keterampilan']['kelas_11']['praktek'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Produk',
+                            data: data_keterampilan_kelas_11['keterampilan']['kelas_11']['produk'],
+                            backgroundColor: [
+                            'rgba(215, 250, 90, 0.5)',
+                            ],
+                            borderColor: [
+                            'rgb(215, 250, 90)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Proyek',
+                            data: data_keterampilan_kelas_11['keterampilan']['kelas_11']['proyek'],
+                            backgroundColor: [
+                            'rgba(113, 202, 230, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(113, 202, 230)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Portofolio',
+                            data: data_keterampilan_kelas_11['keterampilan']['kelas_11']['portofolio'],
+                            backgroundColor: [
+                            'rgba(230, 113, 226, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(230, 113, 226)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Sosial</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Proyeksi Nilai</th>
+                      <th>Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.sosial.kelas_11 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_proyeksi_nilai__avg | floatformat }}</td>
+                        {% if data.mo_proyeksi_nilai__avg <= 111 and data.mo_proyeksi_nilai__avg > 75 %}
+                          <td>Sangat Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 75 and data.mo_proyeksi_nilai__avg > 50 %}
+                          <td>Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 50 and data.mo_proyeksi_nilai__avg > 25 %}
+                          <td>Cukup</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 25 %}
+                          <td>Cukup</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Sosial</b></small>
+                  <canvas id="barChart_sosial_11" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_sosial_kelas_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_sosial_11'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_sosial_kelas_11['sosial']['kelas_11']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Proyeksi Nilai',
+                            data: data_sosial_kelas_11['sosial']['kelas_11']['proyeksi'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Spiritual</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Proyeksi Nilai</th>
+                      <th>Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.spiritual.kelas_11 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_proyeksi_nilai__avg | floatformat }}</td>
+                        {% if data.mo_proyeksi_nilai__avg <= 111 and data.mo_proyeksi_nilai__avg > 75 %}
+                          <td>Sangat Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 75 and data.mo_proyeksi_nilai__avg > 50 %}
+                          <td>Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 50 and data.mo_proyeksi_nilai__avg > 25 %}
+                          <td>Cukup</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 25 %}
+                          <td>Cukup</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Spiritual</b></small>
+                  <canvas id="barChart_spiritual_11" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_spiritual_kelas_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_spiritual_11'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_spiritual_kelas_11['spiritual']['kelas_11']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Proyeksi Nilai',
+                            data: data_spiritual_kelas_11['spiritual']['kelas_11']['proyeksi'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Ulangan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.ulangan.kelas_11 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Ulangan</b></small>
+                  <canvas id="barChart_ulangan_11" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_ulangan_kelas_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_ulangan_11'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_ulangan_kelas_11['ulangan']['kelas_11']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_ulangan_kelas_11['ulangan']['kelas_11']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ UTS</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.uts.kelas_11 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang UTS</b></small>
+                  <canvas id="barChart_uts_11" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_uts_kelas_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_uts_11'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_uts_kelas_11['uts']['kelas_11']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_uts_kelas_11['uts']['kelas_11']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ UAS</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.uas.kelas_11 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang UAS</b></small>
+                  <canvas id="barChart_uas_11" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_uas_kelas_11 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_uas_11'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_uas_kelas_11['uas']['kelas_11']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_uas_kelas_11['uas']['kelas_11']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_kelas_12" aria-expanded="true" aria-controls="collapseOne">
+        Kelas 12
+        </button>
+      </h2>
+      <div id="collapse_kelas_12" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <div class="card" id='card_kelas_12'>
+            <div class="card-body">
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <h1 class="card-title">Kelas 12</h1>
+                  <small><b>Tabel x̄ Pengetahuan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai P1 TGS</th>
+                      <th>x̄ Nilai P2 TLS</th>
+                      <th>x̄ Nilai P3 TLS</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.pengetahuan.kelas_12 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai_P1_TGS__avg | floatformat }}</td>
+                        <td>{{ data.mo_nilai_P2_TLS__avg | floatformat }}</td>
+                        <td>{{ data.mo_nilai_P3_TLS__avg | floatformat }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-8">
+                  <h1 class="card-title">Diagram x̄ Nilai</h1>
+                  <small><b>Diagram Batang Pengetahuan</b></small>
+                  <canvas id="barChart_pengetahuan_12" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_pengetahuan_kelas_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_pengetahuan_12'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_pengetahuan_kelas_12['pengetahuan']['kelas_12']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai P1 TGS',
+                            data: data_pengetahuan_kelas_12['pengetahuan']['kelas_12']['nilai_P1_TGS'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Nilai P2 TLS',
+                            data: data_pengetahuan_kelas_12['pengetahuan']['kelas_12']['nilai_P2_TLS'],
+                            backgroundColor: [
+                            'rgba(215, 250, 90, 0.5)',
+                            ],
+                            borderColor: [
+                            'rgb(215, 250, 90)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Nilai P3 TLS',
+                            data: data_pengetahuan_kelas_12['pengetahuan']['kelas_12']['nilai_P3_TLS'],
+                            backgroundColor: [
+                            'rgba(123, 202, 230, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(123, 202, 230)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Keterampilan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Praktek</th>
+                      <th>x̄ Produk</th>
+                      <th>x̄ Proyek</th>
+                      <th>x̄ Portofolio</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.keterampilan.kelas_12 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_praktek__avg | floatformat }}</td>
+                        <td>{{ data.mo_produk__avg | floatformat }}</td>
+                        <td>{{ data.mo_proyek__avg | floatformat }}</td>
+                        <td>{{ data.mo_portofolio__avg | floatformat }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Keterampilan</b></small>
+                  <canvas id="barChart_keterampilan_12" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_keterampilan_kelas_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_keterampilan_12'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_keterampilan_kelas_12['keterampilan']['kelas_12']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Praktek',
+                            data: data_keterampilan_kelas_12['keterampilan']['kelas_12']['praktek'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Produk',
+                            data: data_keterampilan_kelas_12['keterampilan']['kelas_12']['produk'],
+                            backgroundColor: [
+                            'rgba(215, 250, 90, 0.5)',
+                            ],
+                            borderColor: [
+                            'rgb(215, 250, 90)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Proyek',
+                            data: data_keterampilan_kelas_12['keterampilan']['kelas_12']['proyek'],
+                            backgroundColor: [
+                            'rgba(123, 202, 230, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(123, 202, 230)',
+                            ],
+                            borderWidth: 1
+                          },
+                          {
+                            label: 'x̄ Portofolio',
+                            data: data_keterampilan_kelas_12['keterampilan']['kelas_12']['portofolio'],
+                            backgroundColor: [
+                            'rgba(230, 123, 226, 0.5)',
+                
+                            ],
+                            borderColor: [
+                            'rgb(230, 123, 226)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Sosial</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Proyeksi Nilai</th>
+                      <th>Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.sosial.kelas_12 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_proyeksi_nilai__avg | floatformat }}</td>
+                        {% if data.mo_proyeksi_nilai__avg <= 121 and data.mo_proyeksi_nilai__avg > 75 %}
+                          <td>Sangat Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 75 and data.mo_proyeksi_nilai__avg > 50 %}
+                          <td>Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 50 and data.mo_proyeksi_nilai__avg > 25 %}
+                          <td>Cukup</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 25 %}
+                          <td>Cukup</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Sosial</b></small>
+                  <canvas id="barChart_sosial_12" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_sosial_kelas_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_sosial_12'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_sosial_kelas_12['sosial']['kelas_12']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Proyeksi Nilai',
+                            data: data_sosial_kelas_12['sosial']['kelas_12']['proyeksi'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Spiritual</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Proyeksi Nilai</th>
+                      <th>Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.spiritual.kelas_12 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_proyeksi_nilai__avg | floatformat }}</td>
+                        {% if data.mo_proyeksi_nilai__avg <= 121 and data.mo_proyeksi_nilai__avg > 75 %}
+                          <td>Sangat Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 75 and data.mo_proyeksi_nilai__avg > 50 %}
+                          <td>Baik</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 50 and data.mo_proyeksi_nilai__avg > 25 %}
+                          <td>Cukup</td>
+                        {% elif data.mo_proyeksi_nilai__avg <= 25 %}
+                          <td>Cukup</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Spiritual</b></small>
+                  <canvas id="barChart_spiritual_12" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_spiritual_kelas_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_spiritual_12'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_spiritual_kelas_12['spiritual']['kelas_12']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Proyeksi Nilai',
+                            data: data_spiritual_kelas_12['spiritual']['kelas_12']['proyeksi'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ Ulangan</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.ulangan.kelas_12 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang Ulangan</b></small>
+                  <canvas id="barChart_ulangan_12" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_ulangan_kelas_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_ulangan_12'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_ulangan_kelas_12['ulangan']['kelas_12']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_ulangan_kelas_12['ulangan']['kelas_12']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ UTS</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.uts.kelas_12 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg | floatformat }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang UTS</b></small>
+                  <canvas id="barChart_uts_12" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_uts_kelas_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_uts_12'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_uts_kelas_12['uts']['kelas_12']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_uts_kelas_12['uts']['kelas_12']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-5">
+                  <small><b>Tabel x̄ UAS</b></small>
+                  <table class="table table-hover" style="font-size: 13px;">
+                    <thead>
+                      <th>Kelas</th>
+                      <th>x̄ Nilai</th>
+                    </thead>
+                    <tbody>
+                      {% for data in data_angka.uas.kelas_12 %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'monitoring:page_bk_performa_kelas_detail' data.mo_kelas__skl_k_kelas_uuid %}">{{ data.mo_kelas__skl_k_kelas_nama }}</a>
+                        </td>
+                        <td>{{ data.mo_nilai__avg }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-7">
+                  <small><b>Diagram Batang UAS</b></small>
+                  <canvas id="barChart_uas_12" style="max-height: 400px;"></canvas>
+                  <script>
+                    var data_uas_kelas_12 = JSON.parse("{{ data_grafik | escapejs }}");
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart_uas_12'), {
+                      type: 'bar',
+                      data: {
+                        labels: data_uas_kelas_12['uas']['kelas_12']['kelas'],
+                        datasets: [
+                          {
+                            label: 'x̄ Nilai',
+                            data: data_uas_kelas_12['uas']['kelas_12']['nilai'],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                    
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                          },
+                        ]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                          beginAtZero: true
+                          }
+                        }
+                      }
+                      });
+                    });
+                  </script>
+                  <!-- End Bar CHart -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+
+
+
+
+
+          
+
+
+
+
+          
+
+
+
+</main>
+{% endblock sub_content %}
